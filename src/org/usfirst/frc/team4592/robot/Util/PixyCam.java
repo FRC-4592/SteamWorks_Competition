@@ -7,6 +7,7 @@ import org.usfirst.frc.team4592.robot.Util.Pixy.PixyPacket;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Solenoid;
 
+@SuppressWarnings("unused")
 public class PixyCam{
 	private static final double CAMERA_FOCAL = 416.938111;
 	private static final double CAMERA_SCALAR = 640/3.3;

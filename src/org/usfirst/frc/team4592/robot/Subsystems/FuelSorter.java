@@ -3,18 +3,21 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.FuelSorterButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Util.bangBang;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
 public class FuelSorter implements Loopable{
 	private FuelSorterButton [] fuelSorterButtons;
 	private CANTalon sorterMotor;
+	private bangBang sorter_bangBang;
 	private FuelSorterStates tempState;
 	private FuelSorterStates state = FuelSorterStates.Stop;
 	
 	public FuelSorter(FuelSorterButton [] fuelSorterButtons, CANTalon sorterMotor){
 		this.fuelSorterButtons = fuelSorterButtons;
 		this.sorterMotor = sorterMotor;
+		this.sorter_bangBang = new bangBang(1250);
 	}
 	
 	public enum FuelSorterStates{
@@ -38,7 +41,7 @@ public class FuelSorter implements Loopable{
 		switch(state){
 		
 			case Forward:
-				sorterMotor.set(0.85);
+				sorterMotor.set(sorter_bangBang.getOutput(sorterMotor.getSpeed()));
 				
 				tempState = buttonCheck();
 				
@@ -48,7 +51,7 @@ public class FuelSorter implements Loopable{
 	break;
 		
 			case Reverse:
-				sorterMotor.set(-0.85);
+				sorterMotor.set(-0.35);
 				
 				tempState = buttonCheck();
 				

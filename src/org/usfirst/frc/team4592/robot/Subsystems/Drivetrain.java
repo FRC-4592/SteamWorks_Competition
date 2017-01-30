@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
 
-
+@SuppressWarnings("unused")
 public class Drivetrain implements Loopable{
 	private RobotDrive myRobot;
 	private AnalogInput pegCam;
