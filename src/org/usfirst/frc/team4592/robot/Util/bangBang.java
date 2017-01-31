@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4592.robot.Util;
 
-public class bangBang {
+public class bangBang{
 	private double goalRPM;
 	private double lowerOutputLimit;
 	private double higherOutputLimit;

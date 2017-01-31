@@ -63,6 +63,19 @@ public class Constants {
 	//Drivetrain PI Gains
 		public static final double Drive_ANGLE_Kp = 0.0675;
 		public static final double Drive_ANGLE_Ki = 0.002;
+		//needs to be fixed
+		public static final double Average_RPM_Per_Meter = 0;
+		public static final double Drive_Kp = 0;
+		public static final double Drive_Ki = 0;
 		
 	//Fuel Shooter PI Gains
+		//Turret
+			public static final double Turret_Kp = 0;
+			public static final double Turret_Ki = 0;
+		//Hood
+			public static final double Hood_Kp = 0;
+			public static final double Hood_Ki = 0;
+		//Shooter Wheel
+			public static final double ShooterWheel_Kp = 0;
+			public static final double ShooterWheel_Ki = 0;
 }
