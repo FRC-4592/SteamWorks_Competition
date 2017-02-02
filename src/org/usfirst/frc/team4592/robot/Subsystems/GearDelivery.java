@@ -22,7 +22,7 @@ public class GearDelivery implements Loopable{
 	
 	public GearDeliveryStates buttonCheck(){
 		for(int i = 0; i < gearDeliveryButtons.length; i++){
-			if(Hardware.drivePad.getRawButton(gearDeliveryButtons[i].getButtonNumber())){
+			if(Hardware.driverPad.getRawButton(gearDeliveryButtons[i].getButtonNumber())){
 				return gearDeliveryButtons[i].getWantedState();
 			}
 		}

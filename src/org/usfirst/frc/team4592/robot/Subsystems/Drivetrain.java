@@ -80,6 +80,6 @@ public class Drivetrain implements Loopable{
 	
 	@Override
 	public void update() {
-		myRobot.arcadeDrive(Hardware.drivePad.getY(), (Hardware.drivePad.getRawAxis(4))*-1, false);
+		myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
 	}
 }

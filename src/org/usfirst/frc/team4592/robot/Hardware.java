@@ -65,7 +65,7 @@ public class Hardware {
 			new InfraredSensor(Constants.FUEL_DELIVERY_FULL);
 	
 	//Sticks
-	public static final Joystick drivePad = 
+	public static final Joystick driverPad = 
 			new Joystick(Constants.DRIVE_USB_PORT);
 	public static final Joystick operatorPad = 
 			new Joystick(Constants.OPERATOR_USB_PORT);
