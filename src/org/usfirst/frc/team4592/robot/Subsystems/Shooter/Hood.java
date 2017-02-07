@@ -3,19 +3,24 @@ package org.usfirst.frc.team4592.robot.Subsystems.Shooter;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.HoodButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Util.PID;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
 @SuppressWarnings("unused")
 public class Hood implements Loopable{
 	private HoodButton [] hoodButtons;	
-	private CANTalon positionMotor;
+	private CANTalon hoodPositionMotor;
+	private PID Hood_P;
+	private double goal;
+	private double error;
 	private HoodStates tempState;
 	private HoodStates state = HoodStates.Start;
 	
-	public Hood(HoodButton [] hoodButtons, CANTalon positionMotor){
+	public Hood(HoodButton [] hoodButtons, CANTalon hoodPositionMotor, double Hood_Kp){
 		this.hoodButtons = hoodButtons;
-		this.positionMotor = positionMotor;
+		this.hoodPositionMotor = hoodPositionMotor;
+		this.Hood_P = new PID(Hood_Kp);
 	}
 	
 	public enum HoodStates{
@@ -39,7 +44,10 @@ public class Hood implements Loopable{
 		switch(state){
 		
 			case Start:
-				//PID for start position
+				goal = 0;
+				error = goal - (hoodPositionMotor.getPosition()*(360/3.14));
+				
+				hoodPositionMotor.set(Hood_P.getOutputP(error));
 				
 				tempState = buttonCheck();
 				
@@ -49,7 +57,10 @@ public class Hood implements Loopable{
 	break;
 			
 			case CenterGear:
-				//PID for center gear position
+				goal = 0;
+				error = goal - (hoodPositionMotor.getPosition()*(360/3.14));
+				
+				hoodPositionMotor.set(Hood_P.getOutputP(error));
 				
 				tempState = buttonCheck();
 				
@@ -59,7 +70,10 @@ public class Hood implements Loopable{
 	break;
 	
 			case SideGear:
-				//PID for side gear position
+				goal = 0;
+				error = goal - (hoodPositionMotor.getPosition()*(360/3.14));
+				
+				hoodPositionMotor.set(Hood_P.getOutputP(error));//PID for side gear position
 				
 				tempState = buttonCheck();
 				
@@ -69,7 +83,27 @@ public class Hood implements Loopable{
 	break;
 	
 			case Hopper:
-				//PID for hopper position
+				//wanted launch angle is 60, 
+				//so may be 30 degrees or 60 degrees that motor goes to
+				goal = 40;
+				error = goal - (hoodPositionMotor.getPosition()*(360/3.14));
+				
+				hoodPositionMotor.set(Hood_P.getOutputP(error));
+				
+				tempState = buttonCheck();
+				
+				if(tempState != null || tempState != newState){
+					newState = tempState;
+				}
+	break;
+	
+			case Boiler:
+				//wanted launch angle is 53, 
+				//so may be 37 degrees or 53 degrees that motor goes to
+				goal = 37;
+				error = goal - (hoodPositionMotor.getPosition()*(360/3.14));
+				
+				hoodPositionMotor.set(Hood_P.getOutputP(error));
 				
 				tempState = buttonCheck();
 				
