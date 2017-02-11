@@ -34,6 +34,12 @@ public class PixyCam{
 		this.LedRing3 = LedRing3;
 	}
 	
+	public PixyCam(int port, double camera_goal, int LedRing1){
+		this.analogPixy = new AnalogInput(port);
+		this.camera_goal = camera_goal;
+		this.LedRing1 = new Solenoid(LedRing1);
+	}
+	
 	//SPI Pixy
 	public PixyCam(Pixy SPIPixy, double camera_goal,
 			Solenoid LedRing1, Solenoid LedRing2, Solenoid LedRing3){
@@ -42,6 +48,12 @@ public class PixyCam{
 		this.LedRing1 = LedRing1;
 		this.LedRing2 = LedRing2;
 		this.LedRing3 = LedRing3;
+	}
+	
+	public PixyCam(Pixy SPIPixy, double camera_goal, Solenoid LedRing1){
+		this.SPIPixy = SPIPixy;
+		this.camera_goal = camera_goal;
+		this.LedRing1 = LedRing1;
 	}
 	
 	//Only call when Pixy is using analog system

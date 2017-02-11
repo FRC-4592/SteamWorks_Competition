@@ -1,20 +1,22 @@
 package org.usfirst.frc.team4592.robot;
 
+import org.usfirst.frc.team4592.robot.Button.DrivetrainButton;
 import org.usfirst.frc.team4592.robot.Button.FuelDeliveryButton;
 import org.usfirst.frc.team4592.robot.Button.FuelIntakeButton;
 import org.usfirst.frc.team4592.robot.Button.FuelSorterButton;
 import org.usfirst.frc.team4592.robot.Button.GearDeliveryButton;
+import org.usfirst.frc.team4592.robot.Subsystems.Drivetrain.DrivetrainStates;
 import org.usfirst.frc.team4592.robot.Subsystems.FuelDelivery.FuelDeliveryStates;
 import org.usfirst.frc.team4592.robot.Subsystems.FuelIntake.FuelIntakeStates;
 import org.usfirst.frc.team4592.robot.Subsystems.FuelSorter.FuelSorterStates;
 import org.usfirst.frc.team4592.robot.Subsystems.GearDelivery.GearDeliveryStates;
 import org.usfirst.frc.team4592.robot.Util.InfraredSensor;
-import org.usfirst.frc.team4592.robot.Util.Pixy.Pixy;
+import org.usfirst.frc.team4592.robot.Util.PixyCam;
+import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -30,6 +32,12 @@ public class Hardware {
 			new CANTalon(Constants.RIGHT_MOTOR_CAN);
 	public static final CANTalon leftCANMOTOR =
 			new CANTalon(Constants.LEFT_MOTOR_CAN);
+	
+	//Drivetrain Pnuematics
+	public static final doubleSolenoid leftShifter = 
+			new doubleSolenoid(Constants.LEFT_SHIFTER_OPEN, Constants.LEFT_SHIFTER_CLOSE);
+	public static final doubleSolenoid rightShifter =
+			new doubleSolenoid(Constants.RIGHT_SHIFTER_OPEN, Constants.RIGHT_SHIFTER_CLOSE);
 	
 	//Fuel Intake Motors
 	public static final CANTalon fuelIntakeMotor =
@@ -51,11 +59,15 @@ public class Hardware {
 	public static final CANTalon shooterWheelCAN =
 			new CANTalon(Constants.SHOOTER_WHEEL_MOTOR_CAN);
 	
+	//Gear Delivery
+	public static final doubleSolenoid gearPiston =
+			new doubleSolenoid(Constants.GEAR_DELIVERY_OPEN, Constants.GEAR_DELIVERY_CLOSE);
+	
 	//Vision
-	public static final Pixy fuelShooterCam =
-			new Pixy();
-	public static final AnalogInput pegCam =
-			new AnalogInput(Constants.PEG_CAM);
+	public static final PixyCam fuelShooterCam =
+			new PixyCam(Constants.SHOOTER_CAM, Constants.SHOOTER_CAMERA_GOAL, Constants.SHOOTER_LED_RING_SET);
+	public static final PixyCam pegCam =
+			new PixyCam(Constants.PEG_CAM, Constants.PEG_CAMERA_GOAL, Constants.PEG_LED_RING_SET);
 	
 	//Gyro
 	public static final ADXRS450_Gyro SpartanBoard =
@@ -76,6 +88,11 @@ public class Hardware {
 			public static GearDeliveryButton [] gearDeliveryButtons = {
 					new GearDeliveryButton(Constants.GEAR_DELIVERY_OPEN, GearDeliveryStates.Open),
 					new GearDeliveryButton(Constants.GEAR_DELIVERY_CLOSE, GearDeliveryStates.Close)
+			};
+		// Drivetrain Buttons
+			public static DrivetrainButton [] drivetrainButtons = {
+					new DrivetrainButton(Constants.DRIVETRAIN_LOWGEAR, DrivetrainStates.LowGear),
+					new DrivetrainButton(Constants.DRIVETRAIN_HIGHGEAR, DrivetrainStates.HighGear)
 			};
 	
 	//Operator Buttons

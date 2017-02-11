@@ -12,6 +12,12 @@ public class Constants {
 	//Drivetrain CAN Values
 		public static final int RIGHT_MOTOR_CAN = 0;
 		public static final int LEFT_MOTOR_CAN = 1;
+		
+	//Drivetrain Pnuematics
+		public static final int LEFT_SHIFTER_OPEN = 0;
+		public static final int LEFT_SHIFTER_CLOSE = 1;
+		public static final int RIGHT_SHIFTER_OPEN = 2;
+		public static final int RIGHT_SHIFTER_CLOSE = 3;
 	
 	//Fuel Intake CAN Values
 		public static final int FUEL_INTAKE_MOTOR_CAN = 2;
@@ -28,11 +34,20 @@ public class Constants {
 		public static final int SHOOTER_WHEEL_MOTOR_CAN = 6;
 		
 	//Gear Delivery Pnuematics
-		public static final int GEAR_DELIVERY_CLOSE = 0;
-		public static final int GEAR_DELIVERY_OPEN = 1;
+		public static final int GEAR_DELIVERY_CLOSE = 4;
+		public static final int GEAR_DELIVERY_OPEN = 5;
 	
-	//Vision
+	//Vision Camera
 		public static final int PEG_CAM = 0;
+		public static final int SHOOTER_CAM = 1;
+
+	//Vision Lights	
+		public static final int PEG_LED_RING_SET = 6;
+		public static final int SHOOTER_LED_RING_SET = 7;
+	
+	//Vision Constants
+		public static final double PEG_CAMERA_GOAL = 0;
+		public static final double SHOOTER_CAMERA_GOAL = 0;
 		
 	//Analog Sensors Inputs
 		public static final int FUEL_DELIVERY_FULL = 0;
@@ -42,7 +57,13 @@ public class Constants {
 		public static final int OPERATOR_USB_PORT = 1;
 	
 	//Driver Buttons
-	
+		//Gear Delivery Buttons
+			public static final int GEARDELIVERY_OPEN = 9;
+			public static final int GEARDELIVERY_CLOSE = 10;
+		//Drivetrain Buttons
+			public static final int DRIVETRAIN_LOWGEAR = 0;
+			public static final int DRIVETRAIN_HIGHGEAR = 1;
+		
 	//Operator Buttons
 		//Fuel Intake Buttons
 			public static final int FUELINTAKE_PICKUP = 0;
@@ -56,9 +77,6 @@ public class Constants {
 			public static final int FUELDELIVERY_PICKUP = 6;
 			public static final int FUELDELIVERY_REVERSE = 7;
 			public static final int FUELDELIVERY_STOP = 8;
-		//Gear Delivery Buttons
-			public static final int GEARDELIVERY_OPEN = 9;
-			public static final int GEARDELIVERY_CLOSE = 10;
 	
 	//Drivetrain PI Gains
 		public static final double Drive_ANGLE_Kp = 0.0675;

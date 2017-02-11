@@ -1,8 +1,11 @@
 package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Hardware;
+import org.usfirst.frc.team4592.robot.Button.DrivetrainButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Subsystems.FuelDelivery.FuelDeliveryStates;
 import org.usfirst.frc.team4592.robot.Util.PID;
+import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
 import com.ctre.CANTalon;
 
@@ -13,9 +16,12 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 @SuppressWarnings("unused")
 public class Drivetrain implements Loopable{
+	private DrivetrainButton [] drivetrainButtons;
 	private RobotDrive myRobot;
 	private CANTalon leftCANMotor;
 	private CANTalon rightCANMotor;
+	private doubleSolenoid leftShifter;
+	private doubleSolenoid rightShifter;
 	private AnalogInput pegCam;
 	private ADXRS450_Gyro SpartanBoard;
 	private double Average_RPM_Per_Meter;
@@ -25,29 +31,41 @@ public class Drivetrain implements Loopable{
 	private double goal_Angle = 0;
 	private double goal_RPM_Error;
 	private double goal_Angle_Error;
+	private DrivetrainStates tempState;
+	private DrivetrainStates state = DrivetrainStates.LowGear;
 	
-	public Drivetrain(VictorSP leftMotor, CANTalon leftCANMotor, 
-					VictorSP rightMotor, CANTalon rightCANMotor, AnalogInput pegCam,
-					ADXRS450_Gyro SpartanBoard){
+	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP leftMotor, CANTalon leftCANMotor, 
+					VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid leftShifter, doubleSolenoid rightShifter,
+					AnalogInput pegCam, ADXRS450_Gyro SpartanBoard){
 		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
+		this.drivetrainButtons = drivetrainButtons;
 		this.leftCANMotor = leftCANMotor;
 		this.rightCANMotor = rightCANMotor;
+		this.leftShifter = leftShifter;
+		this.rightShifter = rightShifter;
 		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
 	}
 	
-	public Drivetrain(VictorSP leftMotor, CANTalon leftCANMotor, 
-				VictorSP rightMotor, CANTalon rightCANMotor, AnalogInput pegCam, 
-				ADXRS450_Gyro SpartanBoard,	double Average_RPM_Per_Meter, 
+	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP leftMotor, CANTalon leftCANMotor, 
+				VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid leftShifter, doubleSolenoid rightShifter, 
+				AnalogInput pegCam,	ADXRS450_Gyro SpartanBoard,	double Average_RPM_Per_Meter, 
 				double Drive_Angle_Kp, double Drive_Angle_Ki, double Drive_Kp, double Drive_Ki){
 		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
-		this.pegCam = pegCam;
-		this.SpartanBoard = SpartanBoard;
+		this.drivetrainButtons = drivetrainButtons;
 		this.leftCANMotor = leftCANMotor;
 		this.rightCANMotor = rightCANMotor;
+		this.leftShifter = leftShifter;
+		this.rightShifter = rightShifter;
+		this.pegCam = pegCam;
+		this.SpartanBoard = SpartanBoard;
 		this.Average_RPM_Per_Meter = Average_RPM_Per_Meter;
 		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Kp);
 		this.Drive_PI = new PID(Drive_Kp, Drive_Ki); 
+	}
+	
+	public enum DrivetrainStates{
+		LowGear, HighGear;
 	}
 	
 	//method is called by auto modes to tell the robot how far to drive
@@ -79,8 +97,54 @@ public class Drivetrain implements Loopable{
 		return ((leftCANMotor.getSpeed() + rightCANMotor.getSpeed()) / 2);
 	}
 	
+	public DrivetrainStates buttonCheck(){
+		for(int i = 0; i < drivetrainButtons.length; i++){
+			if(Hardware.operatorPad.getRawButton(drivetrainButtons[i].getButtonNumber())){
+				return drivetrainButtons[i].getWantedState();
+			}
+		}
+		
+		return null;
+	}
+	
 	@Override
-	public void update() {
-		myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
+	public void update(){
+		DrivetrainStates newState = state;
+		
+		switch(state){
+			case LowGear:
+				leftShifter.close();
+				rightShifter.close();
+				
+				myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
+				
+				tempState = buttonCheck();
+				
+				if(tempState != null || tempState != newState){
+					newState = tempState;
+				}
+	break;
+	
+			case HighGear:
+				leftShifter.open();
+				rightShifter.open();
+				
+				myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
+	
+				tempState = buttonCheck();
+				
+				if(tempState != null || tempState != newState){
+					newState = tempState;
+				}
+	break;
+	
+			default:
+				newState = DrivetrainStates.HighGear.LowGear;
+	break;
+		}
+		
+		if(newState != state){
+			state = newState;
+		}
 	}
 }
