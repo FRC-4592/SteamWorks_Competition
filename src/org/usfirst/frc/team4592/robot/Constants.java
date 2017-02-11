@@ -22,21 +22,27 @@ public class Constants {
 	//Fuel Intake CAN Values
 		public static final int FUEL_INTAKE_MOTOR_CAN = 2;
 	
-	//Fuel Sorter PWM Values
-		public static final int SORTER_MOTOR_PWM = 2; 
+	//Fuel Sorter  Values
+		public static final int SORTER_MOTOR_CAN = 3; 
 	
 	//Fuel Delivery
-		public static final int FUEL_DELIVERY_MOTOR_CAN = 3;
+		public static final int FUEL_DELIVERY_MOTOR_CAN = 4;
 	
 	//Fuel Shooter CAN Values
-		public static final int SHOOTER_TURRET_MOTOR_CAN = 4;
-		public static final int SHOOTER_HOOD_MOTOR_CAN = 5;
-		public static final int SHOOTER_WHEEL_MOTOR_CAN = 6;
+		public static final int SHOOTER_TURRET_MOTOR_CAN = 5;
+		public static final int SHOOTER_HOOD_MOTOR_CAN = 6;
+		public static final int SHOOTER_WHEEL_MOTOR_CAN = 7;
 		
 	//Gear Delivery Pnuematics
 		public static final int GEAR_DELIVERY_CLOSE = 4;
 		public static final int GEAR_DELIVERY_OPEN = 5;
+		
+	//Climber CAN Values
+		public static final int CLIMBER_MOTOR_CAN = 8;
 	
+	//Climber PWM Values
+		public static final int CLIMBER_MOTOR_PWM = 2;
+		
 	//Vision Camera
 		public static final int PEG_CAM = 0;
 		public static final int SHOOTER_CAM = 1;
@@ -50,7 +56,6 @@ public class Constants {
 		public static final double SHOOTER_CAMERA_GOAL = 0;
 		
 	//Analog Sensors Inputs
-		public static final int FUEL_DELIVERY_FULL = 0;
 	
 	//Stick USB Values
 		public static final int DRIVE_USB_PORT = 0;

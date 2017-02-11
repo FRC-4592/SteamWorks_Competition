@@ -45,7 +45,7 @@ public class Hardware {
 	
 	//Sorter Motors
 	public static final CANTalon sorterMotor =
-			new CANTalon(Constants.SORTER_MOTOR_PWM);
+			new CANTalon(Constants.SORTER_MOTOR_CAN);
 	
 	//Fuel Delivery Motors
 	public static final CANTalon fuelDeliveryMotor =
@@ -63,6 +63,12 @@ public class Hardware {
 	public static final doubleSolenoid gearPiston =
 			new doubleSolenoid(Constants.GEAR_DELIVERY_OPEN, Constants.GEAR_DELIVERY_CLOSE);
 	
+	//Climber
+	public static final CANTalon climberCANMotor =
+			new CANTalon(Constants.CLIMBER_MOTOR_CAN);
+	public static final VictorSP climberMotor =
+			new VictorSP(Constants.CLIMBER_MOTOR_CAN);
+	
 	//Vision
 	public static final PixyCam fuelShooterCam =
 			new PixyCam(Constants.SHOOTER_CAM, Constants.SHOOTER_CAMERA_GOAL, Constants.SHOOTER_LED_RING_SET);
@@ -74,8 +80,6 @@ public class Hardware {
 			new ADXRS450_Gyro();
 	
 	//Analog Sensors
-	public static final InfraredSensor fuelDeliveryFull =
-			new InfraredSensor(Constants.FUEL_DELIVERY_FULL);
 	
 	//Sticks
 	public static final Joystick driverPad = 
