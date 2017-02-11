@@ -4,9 +4,10 @@ import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
 import org.usfirst.frc.team4592.robot.Util.PID;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -60,6 +61,8 @@ public class Drivetrain implements Loopable{
 		
 		myRobot.arcadeDrive(Drive_PI.getOutputP(goal_RPM_Error), Drive_Angle_PI.getOutputP(goal_Angle_Error));		
 		
+		//need to subtract returned value from amtToDrive,
+		//maybe done from this method or classes calling this method
 		return currentRPM/Average_RPM_Per_Meter;
 	}
 	
@@ -73,9 +76,7 @@ public class Drivetrain implements Loopable{
 	}
 	
 	public double getRPM(){
-		double RPM = (leftCANMotor.getSpeed() + rightCANMotor.getSpeed()) / 2;
-		
-		return RPM;
+		return ((leftCANMotor.getSpeed() + rightCANMotor.getSpeed()) / 2);
 	}
 	
 	@Override

@@ -5,7 +5,7 @@ import org.usfirst.frc.team4592.robot.Button.FuelIntakeButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 public class FuelIntake implements Loopable{
 	private FuelIntakeButton [] fuelIntakeButtons;

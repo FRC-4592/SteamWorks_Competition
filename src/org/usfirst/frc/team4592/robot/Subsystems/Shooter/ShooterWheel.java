@@ -3,10 +3,9 @@ package org.usfirst.frc.team4592.robot.Subsystems.Shooter;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.ShooterWheelButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
-import org.usfirst.frc.team4592.robot.Subsystems.Shooter.Hood.HoodStates;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 @SuppressWarnings("unused")
 public class ShooterWheel implements Loopable{

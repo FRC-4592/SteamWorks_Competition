@@ -5,7 +5,7 @@ import org.usfirst.frc.team4592.robot.Button.FuelSorterButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 public class FuelSorter implements Loopable{
 	private FuelSorterButton [] fuelSorterButtons;

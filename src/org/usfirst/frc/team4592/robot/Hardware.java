@@ -11,9 +11,10 @@ import org.usfirst.frc.team4592.robot.Subsystems.GearDelivery.GearDeliveryStates
 import org.usfirst.frc.team4592.robot.Util.InfraredSensor;
 import org.usfirst.frc.team4592.robot.Util.Pixy.Pixy;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
 

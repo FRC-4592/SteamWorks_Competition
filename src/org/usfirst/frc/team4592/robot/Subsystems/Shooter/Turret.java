@@ -5,7 +5,7 @@ import org.usfirst.frc.team4592.robot.Button.TurretButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
 import org.usfirst.frc.team4592.robot.Util.PID;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 @SuppressWarnings("unused")
 public class Turret implements Loopable{
