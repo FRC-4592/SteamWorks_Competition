@@ -3,12 +3,13 @@ package org.usfirst.frc.team4592.robot.Subsystems.Shooter;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.HoodButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.PID;
 
 import com.ctre.CANTalon;
 
 @SuppressWarnings("unused")
-public class Hood implements Loopable{
+public class Hood extends SubsystemFramework{
 	private HoodButton [] hoodButtons;	
 	private CANTalon hoodPositionMotor;
 	private PID Hood_P;
@@ -120,5 +121,17 @@ public class Hood implements Loopable{
 		if(newState != state){
 			state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }

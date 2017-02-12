@@ -2,12 +2,12 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.FuelDeliveryButton;
-import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
 import com.ctre.CANTalon;
 
-public class FuelDelivery implements Loopable{
+public class FuelDelivery extends SubsystemFramework{
 	private FuelDeliveryButton [] fuelDeliveryButtons; 
 	private CANTalon fuelDeliveryMotor;
 	private bangBang delivery_bangBang;
@@ -79,5 +79,17 @@ public class FuelDelivery implements Loopable{
 		if(newState != state){
 			state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }

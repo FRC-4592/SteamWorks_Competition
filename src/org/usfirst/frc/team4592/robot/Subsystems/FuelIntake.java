@@ -2,12 +2,12 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.FuelIntakeButton;
-import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
 import com.ctre.CANTalon;
 
-public class FuelIntake implements Loopable{
+public class FuelIntake extends SubsystemFramework{
 	private FuelIntakeButton [] fuelIntakeButtons;
 	private CANTalon fuelIntakeMotor;
 	private bangBang pickUp_bangBang;
@@ -80,5 +80,17 @@ public class FuelIntake implements Loopable{
 		if(newState != state) {
 	  		state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }

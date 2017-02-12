@@ -3,12 +3,13 @@ package org.usfirst.frc.team4592.robot.Subsystems.Shooter;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.ShooterWheelButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 @SuppressWarnings("unused")
-public class ShooterWheel implements Loopable{
+public class ShooterWheel extends SubsystemFramework{
 	private ShooterWheelButton [] shooterWheelButtons;
 	private CANTalon shooterWheelMotor;
 	private ShooterWheelStates tempState;
@@ -116,5 +117,17 @@ public class ShooterWheel implements Loopable{
 		if(newState != state){
 			state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }

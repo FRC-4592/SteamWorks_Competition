@@ -2,10 +2,10 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.GearDeliveryButton;
-import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
-public class GearDelivery implements Loopable{
+public class GearDelivery extends SubsystemFramework{
 	private GearDeliveryButton [] gearDeliveryButtons;
 	private doubleSolenoid gearDoubleSolenoid;
 	private GearDeliveryStates tempState;
@@ -64,5 +64,17 @@ public class GearDelivery implements Loopable{
 		if(newState != state){
 			state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }

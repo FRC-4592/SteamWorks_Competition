@@ -2,8 +2,7 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.DrivetrainButton;
-import org.usfirst.frc.team4592.robot.Lib.Loopable;
-import org.usfirst.frc.team4592.robot.Subsystems.FuelDelivery.FuelDeliveryStates;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.PID;
 import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
@@ -15,7 +14,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
 
 @SuppressWarnings("unused")
-public class Drivetrain implements Loopable{
+public class Drivetrain extends SubsystemFramework{
 	private DrivetrainButton [] drivetrainButtons;
 	private RobotDrive myRobot;
 	private CANTalon leftCANMotor;
@@ -139,12 +138,24 @@ public class Drivetrain implements Loopable{
 	break;
 	
 			default:
-				newState = DrivetrainStates.HighGear.LowGear;
+				newState = DrivetrainStates.LowGear;
 	break;
 		}
 		
 		if(newState != state){
 			state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }

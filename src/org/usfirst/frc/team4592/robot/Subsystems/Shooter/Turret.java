@@ -3,12 +3,13 @@ package org.usfirst.frc.team4592.robot.Subsystems.Shooter;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.TurretButton;
 import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.PID;
 
 import com.ctre.CANTalon;
 
 @SuppressWarnings("unused")
-public class Turret implements Loopable{
+public class Turret extends SubsystemFramework{
 	private TurretButton [] turretButtons;
 	private CANTalon turretMotor;
 	private PID Turret_P;
@@ -118,5 +119,17 @@ public class Turret implements Loopable{
 		if(newState != state){
 			state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }

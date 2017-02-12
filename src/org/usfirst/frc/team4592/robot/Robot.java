@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4592.robot;
 
 import org.usfirst.frc.team4592.robot.Lib.MultiLooper;
+import org.usfirst.frc.team4592.robot.Subsystems.Climber;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 

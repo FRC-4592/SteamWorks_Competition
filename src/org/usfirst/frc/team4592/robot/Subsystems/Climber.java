@@ -2,14 +2,14 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.ClimberButton;
-import org.usfirst.frc.team4592.robot.Lib.Loopable;
+import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.VictorSP;
 
-public class Climber implements Loopable{
+public class Climber extends SubsystemFramework{
 	private ClimberButton [] climberButtons;
 	private CANTalon controlClimberMotor;
 	private VictorSP climberMotor;
@@ -99,5 +99,17 @@ public class Climber implements Loopable{
 		if(newState != state){
 			state = newState;
 		}
+	}
+
+	@Override
+	public void outputToSmartDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
 	}
 }
