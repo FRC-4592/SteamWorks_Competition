@@ -128,7 +128,7 @@ public class Turret extends SubsystemFramework{
 	}
 
 	@Override
-	public void zeroSensors() {
+	public void setupSensors() {
 		// TODO Auto-generated method stub
 		
 	}
