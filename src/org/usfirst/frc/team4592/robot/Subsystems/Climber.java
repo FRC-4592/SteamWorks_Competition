@@ -6,6 +6,7 @@ import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -109,7 +110,6 @@ public class Climber extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		// TODO Auto-generated method stub
-		
+		controlClimberMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);		
 	}
 }

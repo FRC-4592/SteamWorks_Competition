@@ -6,6 +6,7 @@ import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 
 public class FuelDelivery extends SubsystemFramework{
 	private FuelDeliveryButton [] fuelDeliveryButtons; 
@@ -89,7 +90,6 @@ public class FuelDelivery extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		// TODO Auto-generated method stub
-		
+		fuelDeliveryMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	}
 }

@@ -7,6 +7,7 @@ import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.PID;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 
 @SuppressWarnings("unused")
 public class Hood extends SubsystemFramework{
@@ -131,7 +132,6 @@ public class Hood extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		// TODO Auto-generated method stub
-		
+		hoodPositionMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	}
 }

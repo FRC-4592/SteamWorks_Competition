@@ -6,6 +6,7 @@ import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.bangBang;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 
 public class FuelSorter extends SubsystemFramework{
 	private FuelSorterButton [] fuelSorterButtons;
@@ -88,8 +89,7 @@ public class FuelSorter extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		// TODO Auto-generated method stub
-		
+		sorterMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	}
 
 }

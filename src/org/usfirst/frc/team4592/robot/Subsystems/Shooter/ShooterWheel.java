@@ -6,6 +6,7 @@ import org.usfirst.frc.team4592.robot.Lib.Loopable;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 @SuppressWarnings("unused")
@@ -127,7 +128,6 @@ public class ShooterWheel extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		// TODO Auto-generated method stub
-		
+		shooterWheelMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	}
 }

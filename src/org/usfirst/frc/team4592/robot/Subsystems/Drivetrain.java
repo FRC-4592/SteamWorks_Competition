@@ -7,6 +7,7 @@ import org.usfirst.frc.team4592.robot.Util.PID;
 import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -155,7 +156,7 @@ public class Drivetrain extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		// TODO Auto-generated method stub
-		
+		leftCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		rightCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	}
 }
