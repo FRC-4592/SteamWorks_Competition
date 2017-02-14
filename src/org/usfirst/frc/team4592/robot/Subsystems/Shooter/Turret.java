@@ -2,9 +2,9 @@ package org.usfirst.frc.team4592.robot.Subsystems.Shooter;
 
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.TurretButton;
-import org.usfirst.frc.team4592.robot.Lib.Loopable;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.PID;
+import org.usfirst.frc.team4592.robot.Util.PixyCam;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -13,22 +13,22 @@ import com.ctre.CANTalon.FeedbackDevice;
 public class Turret extends SubsystemFramework{
 	private TurretButton [] turretButtons;
 	private CANTalon turretMotor;
+	private PixyCam turretPixy;
 	private PID Turret_P;
 	private double goal;
 	private double error;
 	private TurretStates tempState;
 	private TurretStates state = TurretStates.Start;
 	
-	public Turret(TurretButton [] turretButtons, CANTalon turretMotor, double Turret_Kp){
+	public Turret(TurretButton [] turretButtons, CANTalon turretMotor, PixyCam turretPixy, double Turret_Kp){
 		this.turretButtons = turretButtons;
 		this.turretMotor = turretMotor;
 		this.Turret_P = new PID(Turret_Kp);
-		
-		
+		this.turretPixy = turretPixy;
 	}
 	
 	public enum TurretStates{
-		Start, CenterGear, SideGear, Hopper, Boiler;
+		Start, CenterGear, SideGear, Hopper, Boiler, Visioning;
 	}
 	
 	public TurretStates buttonCheck(){
@@ -111,6 +111,10 @@ public class Turret extends SubsystemFramework{
 					newState = tempState;
 				}
 	break;
+		
+			case Visioning:
+				turretMotor.set(turretPixy.getAnalogOutput((turretMotor.getPosition()*(360/3.14))));
+	break;
 	
 			default:
 				newState = TurretStates.Start;
@@ -130,6 +134,6 @@ public class Turret extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		turretMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		turretMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 	}
 }

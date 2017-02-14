@@ -132,6 +132,6 @@ public class Hood extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		hoodPositionMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		hoodPositionMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 	}
 }
