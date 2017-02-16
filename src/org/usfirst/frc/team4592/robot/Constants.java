@@ -61,11 +61,11 @@ public class Constants {
 	
 	//Driver Buttons
 		//Gear Delivery Buttons
-			public static final int GEARDELIVERY_OPEN = 9;
-			public static final int GEARDELIVERY_CLOSE = 10;
+			public static final int GEARDELIVERY_OPEN = 0;
+			public static final int GEARDELIVERY_CLOSE = 1;
 		//Drivetrain Buttons
-			public static final int DRIVETRAIN_LOWGEAR = 0;
-			public static final int DRIVETRAIN_HIGHGEAR = 1;
+			public static final int DRIVETRAIN_LOWGEAR = 2;
+			public static final int DRIVETRAIN_HIGHGEAR = 3;
 		
 	//Operator Buttons
 		//Fuel Intake Buttons

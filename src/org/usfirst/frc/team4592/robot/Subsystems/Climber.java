@@ -14,20 +14,17 @@ public class Climber extends SubsystemFramework{
 	private ClimberButton [] climberButtons;
 	private CANTalon controlClimberMotor;
 	private VictorSP climberMotor;
-	private bangBang climb_bangBang;
 	private ClimberStates tempState;
 	private ClimberStates state = ClimberStates.Off;
-	private double output;
 	
 	public Climber(ClimberButton [] climberButtons, CANTalon controlClimberMotor, VictorSP climberMotor){
 		this.climberButtons = climberButtons;
 		this.controlClimberMotor = controlClimberMotor;
 		this.climberMotor = climberMotor;
-		this.climb_bangBang = new bangBang(100);
 	}
 	
 	public enum ClimberStates{
-		Climb, On, Reverse, Off;
+		Climb, Off;
 	}
 	
 	public ClimberStates buttonCheck(){
@@ -45,17 +42,6 @@ public class Climber extends SubsystemFramework{
 		ClimberStates newState = state;
 		
 		switch(state){
-		
-			case On:
-				controlClimberMotor.set(0.75);
-				climberMotor.set(0.75);
-				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
-				}
-	break;
 			
 			case Off:
 				controlClimberMotor.set(0);
@@ -69,21 +55,9 @@ public class Climber extends SubsystemFramework{
 	break;
 	
 			case Climb:
-				output = climb_bangBang.getOutput(controlClimberMotor.getSpeed());
 				
-				controlClimberMotor.set(output);
-				climberMotor.set(output);
-				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
-				}
-	break;
-	
-			case Reverse:
-				controlClimberMotor.set(-0.5);
-				climberMotor.set(-0.5);
+				controlClimberMotor.set(1);
+				climberMotor.set(1);
 				
 				tempState = buttonCheck();
 				
@@ -103,13 +77,12 @@ public class Climber extends SubsystemFramework{
 	}
 
 	@Override
-	public void outputToSmartDashboard() {
+	public void outputToSmartDashboard(){
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setupSensors() {
-		controlClimberMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);		
+	public void setupSensors(){		
 	}
 }

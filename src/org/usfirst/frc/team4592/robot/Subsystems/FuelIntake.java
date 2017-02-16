@@ -11,7 +11,6 @@ import com.ctre.CANTalon.FeedbackDevice;
 public class FuelIntake extends SubsystemFramework{
 	private FuelIntakeButton [] fuelIntakeButtons;
 	private CANTalon fuelIntakeMotor;
-	private bangBang pickUp_bangBang;
 	private FuelIntakeStates tempState;
 	private FuelIntakeStates state = FuelIntakeStates.Stop;
 	
@@ -19,7 +18,6 @@ public class FuelIntake extends SubsystemFramework{
 	public FuelIntake(FuelIntakeButton [] fuelIntakeButtons, CANTalon fuelIntakeMotor){
 		this.fuelIntakeButtons = fuelIntakeButtons;
 		this.fuelIntakeMotor = fuelIntakeMotor;
-		this.pickUp_bangBang = new bangBang(1500);
 	}
 	
 	public enum FuelIntakeStates{
@@ -43,8 +41,7 @@ public class FuelIntake extends SubsystemFramework{
 		switch(state){
 		
 			case PickUp:
-				fuelIntakeMotor.set(
-						pickUp_bangBang.getOutput(fuelIntakeMotor.getSpeed()));
+				fuelIntakeMotor.set(1);
 				
 				tempState = buttonCheck();
 				
@@ -90,7 +87,6 @@ public class FuelIntake extends SubsystemFramework{
 	}
 
 	@Override
-	public void setupSensors() {
-		fuelIntakeMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);		
+	public void setupSensors() {	
 	}
 }
