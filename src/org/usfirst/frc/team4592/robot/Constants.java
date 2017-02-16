@@ -14,10 +14,8 @@ public class Constants {
 		public static final int LEFT_MOTOR_CAN = 1;
 		
 	//Drivetrain Pnuematics
-		public static final int LEFT_SHIFTER_OPEN = 0;
-		public static final int LEFT_SHIFTER_CLOSE = 1;
-		public static final int RIGHT_SHIFTER_OPEN = 2;
-		public static final int RIGHT_SHIFTER_CLOSE = 3;
+		public static final int SHIFTER_OPEN = 0;
+		public static final int SHIFTER_CLOSE = 1;
 	
 	//Fuel Intake CAN Values
 		public static final int FUEL_INTAKE_MOTOR_CAN = 2;
@@ -34,8 +32,8 @@ public class Constants {
 		public static final int SHOOTER_WHEEL_MOTOR_CAN = 7;
 		
 	//Gear Delivery Pnuematics
-		public static final int GEAR_DELIVERY_CLOSE = 4;
-		public static final int GEAR_DELIVERY_OPEN = 5;
+		public static final int GEAR_DELIVERY_CLOSE = 2;
+		public static final int GEAR_DELIVERY_OPEN = 3;
 		
 	//Climber CAN Values
 		public static final int CLIMBER_MOTOR_CAN = 8;
@@ -48,8 +46,8 @@ public class Constants {
 		public static final int SHOOTER_CAM = 1;
 
 	//Vision Lights	
-		public static final int PEG_LED_RING_SET = 6;
-		public static final int SHOOTER_LED_RING_SET = 7;
+		public static final int PEG_LED_RING_SET = 4;
+		public static final int SHOOTER_LED_RING_SET = 5;
 	
 	//Vision Constants
 		public static final double PEG_CAMERA_GOAL = 0;

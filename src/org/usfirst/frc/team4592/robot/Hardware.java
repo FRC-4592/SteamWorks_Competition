@@ -34,10 +34,8 @@ public class Hardware {
 			new CANTalon(Constants.LEFT_MOTOR_CAN);
 	
 	//Drivetrain Pnuematics
-	public static final doubleSolenoid leftShifter = 
-			new doubleSolenoid(Constants.LEFT_SHIFTER_OPEN, Constants.LEFT_SHIFTER_CLOSE);
-	public static final doubleSolenoid rightShifter =
-			new doubleSolenoid(Constants.RIGHT_SHIFTER_OPEN, Constants.RIGHT_SHIFTER_CLOSE);
+	public static final doubleSolenoid shifter =
+			new doubleSolenoid(Constants.SHIFTER_OPEN, Constants.SHIFTER_CLOSE);
 	
 	//Fuel Intake Motors
 	public static final CANTalon fuelIntakeMotor =

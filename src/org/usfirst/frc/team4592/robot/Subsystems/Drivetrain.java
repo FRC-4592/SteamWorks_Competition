@@ -21,8 +21,7 @@ public class Drivetrain extends SubsystemFramework{
 	private RobotDrive myRobot;
 	private CANTalon leftCANMotor;
 	private CANTalon rightCANMotor;
-	private doubleSolenoid leftShifter;
-	private doubleSolenoid rightShifter;
+	private doubleSolenoid shifter;
 	private PixyCam pegCam;
 	private ADXRS450_Gyro SpartanBoard;
 	private double Average_RPM_Per_Meter;
@@ -36,28 +35,26 @@ public class Drivetrain extends SubsystemFramework{
 	private DrivetrainStates state = DrivetrainStates.LowGear;
 	
 	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP leftMotor, CANTalon leftCANMotor, 
-					VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid leftShifter, doubleSolenoid rightShifter,
+					VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid shifter,
 					PixyCam pegCam, ADXRS450_Gyro SpartanBoard){
 		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
 		this.drivetrainButtons = drivetrainButtons;
 		this.leftCANMotor = leftCANMotor;
 		this.rightCANMotor = rightCANMotor;
-		this.leftShifter = leftShifter;
-		this.rightShifter = rightShifter;
+		this.shifter = shifter;
 		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
 	}
 	
 	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP leftMotor, CANTalon leftCANMotor, 
-				VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid leftShifter, doubleSolenoid rightShifter, 
+				VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid shifter, 
 				PixyCam pegCam,	ADXRS450_Gyro SpartanBoard,	double Average_RPM_Per_Meter, 
 				double Drive_Angle_Kp, double Drive_Angle_Ki, double Drive_Kp, double Drive_Ki){
 		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
 		this.drivetrainButtons = drivetrainButtons;
 		this.leftCANMotor = leftCANMotor;
 		this.rightCANMotor = rightCANMotor;
-		this.leftShifter = leftShifter;
-		this.rightShifter = rightShifter;
+		this.shifter = shifter;
 		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
 		this.Average_RPM_Per_Meter = Average_RPM_Per_Meter;
@@ -122,8 +119,7 @@ public class Drivetrain extends SubsystemFramework{
 		
 		switch(state){
 			case LowGear:
-				leftShifter.close();
-				rightShifter.close();
+				shifter.close();
 				
 				myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
 				
@@ -135,8 +131,7 @@ public class Drivetrain extends SubsystemFramework{
 	break;
 	
 			case HighGear:
-				leftShifter.open();
-				rightShifter.open();
+				shifter.open();
 				
 				myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
 	
@@ -148,8 +143,7 @@ public class Drivetrain extends SubsystemFramework{
 	break;
 	
 			case Visioning:
-				leftShifter.close();
-				rightShifter.close();
+				shifter.close();
 				
 				myRobot.arcadeDrive(0, (pegCam.getAnalogOutput(SpartanBoard.getAngle())));
 	break;
