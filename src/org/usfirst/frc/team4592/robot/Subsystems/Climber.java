@@ -3,24 +3,20 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.ClimberButton;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
-import org.usfirst.frc.team4592.robot.Util.bangBang;
-
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.VictorSP;
 
 public class Climber extends SubsystemFramework{
 	private ClimberButton [] climberButtons;
-	private CANTalon controlClimberMotor;
-	private VictorSP climberMotor;
+	private VictorSP leftClimberMotor;
+	private VictorSP rightClimberMotor;
 	private ClimberStates tempState;
 	private ClimberStates state = ClimberStates.Off;
 	
-	public Climber(ClimberButton [] climberButtons, CANTalon controlClimberMotor, VictorSP climberMotor){
+	public Climber(ClimberButton [] climberButtons, VictorSP leftClimberMotor, VictorSP rightClimberMotor){
 		this.climberButtons = climberButtons;
-		this.controlClimberMotor = controlClimberMotor;
-		this.climberMotor = climberMotor;
+		this.leftClimberMotor = leftClimberMotor;
+		this.rightClimberMotor = rightClimberMotor;
 	}
 	
 	public enum ClimberStates{
@@ -44,8 +40,8 @@ public class Climber extends SubsystemFramework{
 		switch(state){
 			
 			case Off:
-				controlClimberMotor.set(0);
-				climberMotor.set(0);
+				leftClimberMotor.set(0);
+				rightClimberMotor.set(0);
 				
 				tempState = buttonCheck();
 				
@@ -56,8 +52,8 @@ public class Climber extends SubsystemFramework{
 	
 			case Climb:
 				
-				controlClimberMotor.set(1);
-				climberMotor.set(1);
+				leftClimberMotor.set(1);
+				leftClimberMotor.set(1);
 				
 				tempState = buttonCheck();
 				

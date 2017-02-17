@@ -3,19 +3,17 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.FuelIntakeButton;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
-import org.usfirst.frc.team4592.robot.Util.bangBang;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class FuelIntake extends SubsystemFramework{
 	private FuelIntakeButton [] fuelIntakeButtons;
-	private CANTalon fuelIntakeMotor;
+	private VictorSP fuelIntakeMotor;
 	private FuelIntakeStates tempState;
 	private FuelIntakeStates state = FuelIntakeStates.Stop;
 	
 	
-	public FuelIntake(FuelIntakeButton [] fuelIntakeButtons, CANTalon fuelIntakeMotor){
+	public FuelIntake(FuelIntakeButton [] fuelIntakeButtons, VictorSP fuelIntakeMotor){
 		this.fuelIntakeButtons = fuelIntakeButtons;
 		this.fuelIntakeMotor = fuelIntakeMotor;
 	}
