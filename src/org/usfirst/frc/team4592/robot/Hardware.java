@@ -38,8 +38,8 @@ public class Hardware {
 			new doubleSolenoid(Constants.SHIFTER_OPEN, Constants.SHIFTER_CLOSE);
 	
 	//Fuel Intake Motors
-	public static final CANTalon fuelIntakeMotor =
-			new CANTalon(Constants.FUEL_INTAKE_MOTOR_CAN);
+	public static final VictorSP fuelIntakeMotor =
+			new VictorSP(Constants.FUEL_INTAKE_MOTOR_PWM);
 	
 	//Sorter Motors
 	public static final CANTalon sorterMotor =
@@ -62,10 +62,10 @@ public class Hardware {
 			new doubleSolenoid(Constants.GEAR_DELIVERY_OPEN, Constants.GEAR_DELIVERY_CLOSE);
 	
 	//Climber
-	public static final CANTalon climberCANMotor =
-			new CANTalon(Constants.CLIMBER_MOTOR_CAN);
+	public static final VictorSP climberCANMotor =
+			new VictorSP(Constants.RIGHT_CLIMBER_MOTOR_PWM);
 	public static final VictorSP climberMotor =
-			new VictorSP(Constants.CLIMBER_MOTOR_CAN);
+			new VictorSP(Constants.LEFT_CLIMBER_MOTOR_PWM);
 	
 	//Vision
 	public static final PixyCam fuelShooterCam =

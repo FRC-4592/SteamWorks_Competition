@@ -17,29 +17,27 @@ public class Constants {
 		public static final int SHIFTER_OPEN = 0;
 		public static final int SHIFTER_CLOSE = 1;
 	
-	//Fuel Intake CAN Values
-		public static final int FUEL_INTAKE_MOTOR_CAN = 2;
+	//Fuel Intake PWM Values
+		public static final int FUEL_INTAKE_MOTOR_PWM = 2;
 	
 	//Fuel Sorter  Values
-		public static final int SORTER_MOTOR_CAN = 3; 
+		public static final int SORTER_MOTOR_CAN = 2; 
 	
 	//Fuel Delivery
-		public static final int FUEL_DELIVERY_MOTOR_CAN = 4;
+		public static final int FUEL_DELIVERY_MOTOR_CAN = 3;
 	
 	//Fuel Shooter CAN Values
-		public static final int SHOOTER_TURRET_MOTOR_CAN = 5;
-		public static final int SHOOTER_HOOD_MOTOR_CAN = 6;
-		public static final int SHOOTER_WHEEL_MOTOR_CAN = 7;
+		public static final int SHOOTER_TURRET_MOTOR_CAN = 4;
+		public static final int SHOOTER_HOOD_MOTOR_CAN = 5;
+		public static final int SHOOTER_WHEEL_MOTOR_CAN = 6;
 		
 	//Gear Delivery Pnuematics
 		public static final int GEAR_DELIVERY_CLOSE = 2;
 		public static final int GEAR_DELIVERY_OPEN = 3;
 		
-	//Climber CAN Values
-		public static final int CLIMBER_MOTOR_CAN = 8;
-	
 	//Climber PWM Values
-		public static final int CLIMBER_MOTOR_PWM = 2;
+		public static final int RIGHT_CLIMBER_MOTOR_PWM = 2;	
+		public static final int LEFT_CLIMBER_MOTOR_PWM = 3;
 		
 	//Vision Camera
 		public static final int PEG_CAM = 0;

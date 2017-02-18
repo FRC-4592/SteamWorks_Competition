@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.VictorSP;
 public class Drivetrain extends SubsystemFramework{
 	private DrivetrainButton [] drivetrainButtons;
 	private RobotDrive myRobot;
-	private CANTalon leftCANMotor;
 	private CANTalon rightCANMotor;
+	private CANTalon leftCANMotor;
 	private doubleSolenoid shifter;
 	private PixyCam pegCam;
 	private ADXRS450_Gyro SpartanBoard;
@@ -34,26 +34,26 @@ public class Drivetrain extends SubsystemFramework{
 	private DrivetrainStates tempState;
 	private DrivetrainStates state = DrivetrainStates.LowGear;
 	
-	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP leftMotor, CANTalon leftCANMotor, 
-					VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid shifter,
+	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP rightMotor, CANTalon rightCANMotor,
+					VictorSP leftMotor, CANTalon leftCANMotor, doubleSolenoid shifter,
 					PixyCam pegCam, ADXRS450_Gyro SpartanBoard){
 		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
 		this.drivetrainButtons = drivetrainButtons;
-		this.leftCANMotor = leftCANMotor;
 		this.rightCANMotor = rightCANMotor;
+		this.leftCANMotor = leftCANMotor;
 		this.shifter = shifter;
 		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
 	}
 	
-	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP leftMotor, CANTalon leftCANMotor, 
-				VictorSP rightMotor, CANTalon rightCANMotor, doubleSolenoid shifter, 
+	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP rightMotor, CANTalon rightCANMotor,
+				VictorSP leftMotor, CANTalon leftCANMotor, doubleSolenoid shifter, 
 				PixyCam pegCam,	ADXRS450_Gyro SpartanBoard,	double Average_RPM_Per_Meter, 
 				double Drive_Angle_Kp, double Drive_Angle_Ki, double Drive_Kp, double Drive_Ki){
 		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
 		this.drivetrainButtons = drivetrainButtons;
-		this.leftCANMotor = leftCANMotor;
 		this.rightCANMotor = rightCANMotor;
+		this.leftCANMotor = leftCANMotor;
 		this.shifter = shifter;
 		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
@@ -100,7 +100,7 @@ public class Drivetrain extends SubsystemFramework{
 	}
 	
 	public double getRPM(){
-		return ((leftCANMotor.getSpeed() + rightCANMotor.getSpeed()) / 2);
+		return ((rightCANMotor.getSpeed() + leftCANMotor.getSpeed()) / 2);
 	}
 	
 	public DrivetrainStates buttonCheck(){
@@ -166,7 +166,7 @@ public class Drivetrain extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		leftCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		rightCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		leftCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	}
 }

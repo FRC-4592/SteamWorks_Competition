@@ -8,15 +8,15 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class Climber extends SubsystemFramework{
 	private ClimberButton [] climberButtons;
-	private VictorSP leftClimberMotor;
 	private VictorSP rightClimberMotor;
+	private VictorSP leftClimberMotor;
 	private ClimberStates tempState;
 	private ClimberStates state = ClimberStates.Off;
 	
-	public Climber(ClimberButton [] climberButtons, VictorSP leftClimberMotor, VictorSP rightClimberMotor){
+	public Climber(ClimberButton [] climberButtons, VictorSP rightClimberMotor, VictorSP leftClimberMotor){
 		this.climberButtons = climberButtons;
-		this.leftClimberMotor = leftClimberMotor;
 		this.rightClimberMotor = rightClimberMotor;
+		this.leftClimberMotor = leftClimberMotor;
 	}
 	
 	public enum ClimberStates{
@@ -40,8 +40,8 @@ public class Climber extends SubsystemFramework{
 		switch(state){
 			
 			case Off:
-				leftClimberMotor.set(0);
 				rightClimberMotor.set(0);
+				leftClimberMotor.set(0);
 				
 				tempState = buttonCheck();
 				
@@ -51,8 +51,8 @@ public class Climber extends SubsystemFramework{
 	break;
 	
 			case Climb:
-				
-				leftClimberMotor.set(1);
+				//one of these will have to be negative
+				rightClimberMotor.set(1);
 				leftClimberMotor.set(1);
 				
 				tempState = buttonCheck();
