@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4592.robot.Subsystems;
 
+import org.usfirst.frc.team4592.robot.Constants;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.DrivetrainButton;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
@@ -11,9 +12,9 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 @SuppressWarnings("unused")
 public class Drivetrain extends SubsystemFramework{
@@ -24,13 +25,14 @@ public class Drivetrain extends SubsystemFramework{
 	private doubleSolenoid shifter;
 	private PixyCam pegCam;
 	private ADXRS450_Gyro SpartanBoard;
-	private double Average_RPM_Per_Meter;
+	private double Average_Counts_Per_Meter;
 	private PID Drive_Angle_PI;
 	private PID Drive_PI;
 	private double goal_RPM;
 	private double goal_Angle = 0;
 	private double goal_RPM_Error;
 	private double goal_Angle_Error;
+	private double angle;
 	private DrivetrainStates tempState;
 	private DrivetrainStates state = DrivetrainStates.LowGear;
 	
@@ -57,7 +59,7 @@ public class Drivetrain extends SubsystemFramework{
 		this.shifter = shifter;
 		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
-		this.Average_RPM_Per_Meter = Average_RPM_Per_Meter;
+		this.Average_Counts_Per_Meter = Average_RPM_Per_Meter;
 		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Kp);
 		this.Drive_PI = new PID(Drive_Kp, Drive_Ki); 
 	}
@@ -68,18 +70,18 @@ public class Drivetrain extends SubsystemFramework{
 	
 	//method is called by auto modes to tell the robot how far to drive
 	public double autoDrive(double amtToDrive){
-		goal_RPM = amtToDrive * Average_RPM_Per_Meter;
+		goal_RPM = amtToDrive * Average_Counts_Per_Meter;
 		
-		double currentRPM = getRPM();
+		double currentPosition = getPosition();
 		
-		goal_RPM_Error = goal_RPM - currentRPM;
+		goal_RPM_Error = goal_RPM - currentPosition;
 		goal_Angle_Error = goal_Angle - SpartanBoard.getAngle();
 		
-		myRobot.arcadeDrive(Drive_PI.getOutputP(goal_RPM_Error), Drive_Angle_PI.getOutputP(goal_Angle_Error));		
+		myRobot.arcadeDrive(/*Drive_PI.getOutputP(goal_RPM_Error)*/1, 0);//Drive_Angle_PI.getOutputP(0));		
 		
 		//need to subtract returned value from amtToDrive,
 		//maybe done from this method or classes calling this method
-		return currentRPM/Average_RPM_Per_Meter;
+		return currentPosition/Average_Counts_Per_Meter;
 	}
 	
 	//method is called by auto modes to tell the robot to turn to a certain degree
@@ -99,13 +101,13 @@ public class Drivetrain extends SubsystemFramework{
 		myRobot.arcadeDrive(0, Drive_Angle_PI.getOutputP(goal_Angle_Error));
 	}
 	
-	public double getRPM(){
-		return ((rightCANMotor.getSpeed() + leftCANMotor.getSpeed()) / 2);
+	public double getPosition(){
+		return ((rightCANMotor.getPosition() + leftCANMotor.getPosition()) / 2);
 	}
 	
 	public DrivetrainStates buttonCheck(){
 		for(int i = 0; i < drivetrainButtons.length; i++){
-			if(Hardware.operatorPad.getRawButton(drivetrainButtons[i].getButtonNumber())){
+			if(Hardware.driverPad.getRawButton(drivetrainButtons[i].getButtonNumber())){
 				return drivetrainButtons[i].getWantedState();
 			}
 		}
@@ -116,57 +118,57 @@ public class Drivetrain extends SubsystemFramework{
 	@Override
 	public void update(){
 		DrivetrainStates newState = state;
+		angle = SpartanBoard.getAngle();
 		
 		switch(state){
 			case LowGear:
 				shifter.close();
 				
-				myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
+				myRobot.arcadeDrive(Hardware.driverPad.getRawAxis(1)*-1, (Hardware.driverPad.getRawAxis(4))*-1, false);
 				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
+				if(Hardware.driverPad.getRawButton(Constants.DRIVETRAIN_HIGHGEAR)){
+					newState = DrivetrainStates.HighGear;
 				}
-	break;
+				break;
 	
 			case HighGear:
 				shifter.open();
 				
-				myRobot.arcadeDrive(Hardware.driverPad.getY(), (Hardware.driverPad.getRawAxis(4))*-1, false);
+				myRobot.arcadeDrive(Hardware.driverPad.getRawAxis(1)*-1, (Hardware.driverPad.getRawAxis(4))*-1, false);
 	
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
+				if(Hardware.driverPad.getRawButton(Constants.DRIVETRAIN_LOWGEAR)){
+					newState = DrivetrainStates.LowGear;
 				}
-	break;
+				break;
 	
 			case Visioning:
 				shifter.close();
 				
 				myRobot.arcadeDrive(0, (pegCam.getAnalogOutput(SpartanBoard.getAngle())));
-	break;
+				break;
 	
 			default:
 				newState = DrivetrainStates.LowGear;
-	break;
+				break;
 		}
 		
 		if(newState != state){
 			state = newState;
 		}
+		
+		outputToSmartDashboard();
 	}
 
 	@Override
 	public void outputToSmartDashboard() {
-		// TODO Auto-generated method stub
-		
+		SmartDashboard.putNumber("Right Position", rightCANMotor.getPosition());
+		SmartDashboard.putNumber("Left Position", leftCANMotor.getPosition());
+		SmartDashboard.putNumber("Angle", SpartanBoard.getAngle());
 	}
 
 	@Override
 	public void setupSensors() {
-		rightCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		leftCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		rightCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+		leftCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 	}
 }

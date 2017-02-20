@@ -6,16 +6,16 @@ package org.usfirst.frc.team4592.robot;
 
 public class Constants {
 	//Drivetrain PWM Values
-		public static final int RIGHT_MOTOR_PWM = 0;
-		public static final int LEFT_MOTOR_PWM = 1;
+		public static final int RIGHT_MOTOR_PWM = 1;
+		public static final int LEFT_MOTOR_PWM = 0;
 	
 	//Drivetrain CAN Values
-		public static final int RIGHT_MOTOR_CAN = 0;
-		public static final int LEFT_MOTOR_CAN = 1;
+		public static final int RIGHT_MOTOR_CAN = 11;
+		public static final int LEFT_MOTOR_CAN = 5;
 		
 	//Drivetrain Pnuematics
-		public static final int SHIFTER_OPEN = 0;
-		public static final int SHIFTER_CLOSE = 1;
+		public static final int SHIFTER_OPEN = 2;
+		public static final int SHIFTER_CLOSE = 3;
 	
 	//Fuel Intake PWM Values
 		public static final int FUEL_INTAKE_MOTOR_PWM = 2;
@@ -28,16 +28,16 @@ public class Constants {
 	
 	//Fuel Shooter CAN Values
 		public static final int SHOOTER_TURRET_MOTOR_CAN = 4;
-		public static final int SHOOTER_HOOD_MOTOR_CAN = 5;
+		public static final int SHOOTER_HOOD_MOTOR_CAN = 7;
 		public static final int SHOOTER_WHEEL_MOTOR_CAN = 6;
 		
 	//Gear Delivery Pnuematics
-		public static final int GEAR_DELIVERY_CLOSE = 2;
-		public static final int GEAR_DELIVERY_OPEN = 3;
+		public static final int GEAR_DELIVERY_CLOSE = 0;
+		public static final int GEAR_DELIVERY_OPEN = 1;
 		
 	//Climber PWM Values
-		public static final int RIGHT_CLIMBER_MOTOR_PWM = 2;	
-		public static final int LEFT_CLIMBER_MOTOR_PWM = 3;
+		public static final int RIGHT_CLIMBER_MOTOR_PWM = 8;	
+		public static final int LEFT_CLIMBER_MOTOR_PWM = 7;
 		
 	//Vision Camera
 		public static final int PEG_CAM = 0;
@@ -59,32 +59,34 @@ public class Constants {
 	
 	//Driver Buttons
 		//Gear Delivery Buttons
-			public static final int GEARDELIVERY_OPEN = 0;
-			public static final int GEARDELIVERY_CLOSE = 1;
+			public static final int GEARDELIVERY_OPEN = 3;
+			public static final int GEARDELIVERY_CLOSE = 4;
 		//Drivetrain Buttons
-			public static final int DRIVETRAIN_LOWGEAR = 2;
-			public static final int DRIVETRAIN_HIGHGEAR = 3;
+			public static final int DRIVETRAIN_LOWGEAR = 1;
+			public static final int DRIVETRAIN_HIGHGEAR = 2;
+		//Climber Button
+			public static final int CLIMB = 6;
 		
 	//Operator Buttons
 		//Fuel Intake Buttons
-			public static final int FUELINTAKE_PICKUP = 0;
-			public static final int FUELINTAKE_REVERSE = 1;
-			public static final int FUELINTAKE_STOP = 2;
+			public static final int FUELINTAKE_PICKUP = 1;
+			public static final int FUELINTAKE_REVERSE = 2;
+			public static final int FUELINTAKE_STOP = 3;
 		//Fuel Sorter Buttons
-			public static final int FUELSORTER_FORWARD = 3;
-			public static final int FUELSORTER_REVERSE = 4;
-			public static final int FUELSORTER_STOP = 5;
+			public static final int FUELSORTER_FORWARD = 4;
+			public static final int FUELSORTER_REVERSE = 5;
+			public static final int FUELSORTER_STOP = 6;
 		//Fuel Delivery Buttons
-			public static final int FUELDELIVERY_PICKUP = 6;
-			public static final int FUELDELIVERY_REVERSE = 7;
-			public static final int FUELDELIVERY_STOP = 8;
+			public static final int FUELDELIVERY_PICKUP = 7;
+			public static final int FUELDELIVERY_REVERSE = 8;
+			public static final int FUELDELIVERY_STOP = 9;
 	
 	//Drivetrain PI Gains
-		public static final double Drive_ANGLE_Kp = 0.0675;
-		public static final double Drive_ANGLE_Ki = 0.002;
+		public static final double Drive_ANGLE_Kp = 0; //0.0675;
+		public static final double Drive_ANGLE_Ki = 0; //0.002;
 		//needs to be fixed
-		public static final double Average_RPM_Per_Meter = 0;
-		public static final double Drive_Kp = 0;
+		public static final double Average_Counts_Per_Meter = 3.17623;
+		public static final double Drive_Kp = 0.5;
 		public static final double Drive_Ki = 0;
 		
 	//Fuel Shooter PI Gains

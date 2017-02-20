@@ -1,33 +1,21 @@
 package org.usfirst.frc.team4592.robot.Subsystems;
 
+import org.usfirst.frc.team4592.robot.Constants;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.GearDeliveryButton;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
 public class GearDelivery extends SubsystemFramework{
-	private GearDeliveryButton [] gearDeliveryButtons;
 	private doubleSolenoid gearDoubleSolenoid;
-	private GearDeliveryStates tempState;
 	private GearDeliveryStates state = GearDeliveryStates.Close;
 	
-	public GearDelivery(GearDeliveryButton [] gearDeliveryButtons, doubleSolenoid gearDoubleSolenoid){
-		this.gearDeliveryButtons = gearDeliveryButtons;
+	public GearDelivery(doubleSolenoid gearDoubleSolenoid){
 		this.gearDoubleSolenoid = gearDoubleSolenoid;
 	}
 	
 	public enum GearDeliveryStates{
 		Open, Close;
-	}
-	
-	public GearDeliveryStates buttonCheck(){
-		for(int i = 0; i < gearDeliveryButtons.length; i++){
-			if(Hardware.driverPad.getRawButton(gearDeliveryButtons[i].getButtonNumber())){
-				return gearDeliveryButtons[i].getWantedState();
-			}
-		}
-		
-		return null;
 	}
 
 	@Override
@@ -39,20 +27,16 @@ public class GearDelivery extends SubsystemFramework{
 			case Open:
 				gearDoubleSolenoid.open();
 				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
+				if(Hardware.driverPad.getRawButton(Constants.GEARDELIVERY_CLOSE)){
+					newState = GearDeliveryStates.Close;
 				}
 	break;
 
 			case Close:
 				gearDoubleSolenoid.close();
 				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
+				if(Hardware.driverPad.getRawButton(Constants.GEARDELIVERY_OPEN)){
+					newState = GearDeliveryStates.Open;
 				}
 	break;			
 	

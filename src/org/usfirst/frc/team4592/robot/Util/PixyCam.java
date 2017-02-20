@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4592.robot.Util;
 
-import org.usfirst.frc.team4592.robot.SmartDashBoard;
 import org.usfirst.frc.team4592.robot.Util.Pixy.Pixy;
 import org.usfirst.frc.team4592.robot.Util.Pixy.PixyException;
 import org.usfirst.frc.team4592.robot.Util.Pixy.PixyPacket;

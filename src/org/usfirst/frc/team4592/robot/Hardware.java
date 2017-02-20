@@ -62,9 +62,9 @@ public class Hardware {
 			new doubleSolenoid(Constants.GEAR_DELIVERY_OPEN, Constants.GEAR_DELIVERY_CLOSE);
 	
 	//Climber
-	public static final VictorSP climberCANMotor =
+	public static final VictorSP rightClimberMotor =
 			new VictorSP(Constants.RIGHT_CLIMBER_MOTOR_PWM);
-	public static final VictorSP climberMotor =
+	public static final VictorSP leftClimberMotor =
 			new VictorSP(Constants.LEFT_CLIMBER_MOTOR_PWM);
 	
 	//Vision
