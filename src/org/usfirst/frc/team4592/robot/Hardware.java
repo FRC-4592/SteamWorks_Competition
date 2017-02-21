@@ -24,14 +24,14 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class Hardware {
 	//Drivetrain Motors
-	public static final VictorSP rightMotor =
-			new VictorSP(Constants.RIGHT_MOTOR_PWM);
-	public static final VictorSP leftMotor =
-			new VictorSP(Constants.LEFT_MOTOR_PWM);
-	public static final CANTalon RightCANMotor =
-			new CANTalon(Constants.RIGHT_MOTOR_CAN);
-	public static final CANTalon leftCANMOTOR =
-			new CANTalon(Constants.LEFT_MOTOR_CAN);
+	public static final CANTalon rightMasterMotor =
+			new CANTalon(Constants.RIGHT_MOTOR_MASTER_CAN);
+	public static final CANTalon rightSlaveMotor =
+			new CANTalon(Constants.RIGHT_MOTOR_SLAVE_CAN);
+	public static final CANTalon leftMasterMotor =
+			new CANTalon(Constants.LEFT_MOTOR_MASTER_CAN);
+	public static final CANTalon leftSlaveMotor =
+			new CANTalon(Constants.LEFT_MOTOR_SLAVE_CAN);
 	
 	//Drivetrain Pnuematics
 	public static final doubleSolenoid shifter =

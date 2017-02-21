@@ -5,20 +5,18 @@ package org.usfirst.frc.team4592.robot;
  */
 
 public class Constants {
-	//Drivetrain PWM Values
-		public static final int RIGHT_MOTOR_PWM = 1;
-		public static final int LEFT_MOTOR_PWM = 0;
-	
 	//Drivetrain CAN Values
-		public static final int RIGHT_MOTOR_CAN = 11;
-		public static final int LEFT_MOTOR_CAN = 5;
+		public static final int RIGHT_MOTOR_MASTER_CAN = 11;
+		public static final int RIGHT_MOTOR_SLAVE_CAN = 10;
+		public static final int LEFT_MOTOR_MASTER_CAN = 5;
+		public static final int LEFT_MOTOR_SLAVE_CAN = 6;
 		
 	//Drivetrain Pnuematics
 		public static final int SHIFTER_OPEN = 2;
 		public static final int SHIFTER_CLOSE = 3;
 	
 	//Fuel Intake PWM Values
-		public static final int FUEL_INTAKE_MOTOR_PWM = 2;
+		public static final int FUEL_INTAKE_MOTOR_PWM = 9;
 	
 	//Fuel Sorter  Values
 		public static final int SORTER_MOTOR_CAN = 2; 
@@ -69,9 +67,9 @@ public class Constants {
 		
 	//Operator Buttons
 		//Fuel Intake Buttons
-			public static final int FUELINTAKE_PICKUP = 1;
-			public static final int FUELINTAKE_REVERSE = 2;
-			public static final int FUELINTAKE_STOP = 3;
+			public static final int FUELINTAKE_PICKUP = 7;
+			public static final int FUELINTAKE_REVERSE = 8;
+			public static final int FUELINTAKE_STOP = 5;
 		//Fuel Sorter Buttons
 			public static final int FUELSORTER_FORWARD = 4;
 			public static final int FUELSORTER_REVERSE = 5;
@@ -86,7 +84,7 @@ public class Constants {
 		public static final double Drive_ANGLE_Ki = 0; //0.002;
 		//needs to be fixed
 		public static final double Average_Counts_Per_Meter = 3.17623;
-		public static final double Drive_Kp = 0.5;
+		public static final double Drive_Kp = 0.1;
 		public static final double Drive_Ki = 0;
 		
 	//Fuel Shooter PI Gains

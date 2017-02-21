@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4592.robot.Subsystems;
 
+import org.usfirst.frc.team4592.robot.Constants;
 import org.usfirst.frc.team4592.robot.Hardware;
 import org.usfirst.frc.team4592.robot.Button.FuelIntakeButton;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
@@ -7,29 +8,15 @@ import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import edu.wpi.first.wpilibj.VictorSP;
 
 public class FuelIntake extends SubsystemFramework{
-	private FuelIntakeButton [] fuelIntakeButtons;
 	private VictorSP fuelIntakeMotor;
-	private FuelIntakeStates tempState;
 	private FuelIntakeStates state = FuelIntakeStates.Stop;
 	
-	
-	public FuelIntake(FuelIntakeButton [] fuelIntakeButtons, VictorSP fuelIntakeMotor){
-		this.fuelIntakeButtons = fuelIntakeButtons;
+	public FuelIntake(VictorSP fuelIntakeMotor){
 		this.fuelIntakeMotor = fuelIntakeMotor;
 	}
 	
 	public enum FuelIntakeStates{
 		PickUp, Reverse, Stop;
-	}
-	
-	public FuelIntakeStates buttonCheck(){
-		for(int i = 0; i < fuelIntakeButtons.length; i++){
-			if(Hardware.operatorPad.getRawButton(fuelIntakeButtons[i].getButtonNumber())){
-				return fuelIntakeButtons[i].getWantedState();
-			}
-		}
-		
-		return null;
 	}
 
 	@Override
@@ -41,30 +28,30 @@ public class FuelIntake extends SubsystemFramework{
 			case PickUp:
 				fuelIntakeMotor.set(1);
 				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
+				if(Hardware.driverPad.getRawButton(Constants.FUELDELIVERY_REVERSE)){
+					newState = FuelIntakeStates.Reverse;
+				}else if(Hardware.driverPad.getRawButton(Constants.FUELINTAKE_STOP)){
+					newState = FuelIntakeStates.Stop;
 				}
 	break;
 	
 			case Reverse:
 				fuelIntakeMotor.set(-0.75);
 				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
+				if(Hardware.driverPad.getRawButton(Constants.FUELINTAKE_PICKUP)){
+					newState = FuelIntakeStates.PickUp;
+				}else if(Hardware.driverPad.getRawButton(Constants.FUELINTAKE_STOP)){
+					newState = FuelIntakeStates.Stop;
 				}
 	break;
 	
 			case Stop:
 				fuelIntakeMotor.set(0);
 				
-				tempState = buttonCheck();
-				
-				if(tempState != null || tempState != newState){
-					newState = tempState;
+				if(Hardware.driverPad.getRawButton(Constants.FUELINTAKE_PICKUP)){
+					newState = FuelIntakeStates.PickUp;
+				}else if(Hardware.driverPad.getRawButton(Constants.FUELDELIVERY_REVERSE)){
+					newState = FuelIntakeStates.Reverse;
 				}
 	break;
 	

@@ -18,12 +18,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 @SuppressWarnings("unused")
 public class Drivetrain extends SubsystemFramework{
-	private DrivetrainButton [] drivetrainButtons;
 	private RobotDrive myRobot;
-	private CANTalon rightCANMotor;
-	private CANTalon leftCANMotor;
+	private CANTalon rightMasterMotor;
+	private CANTalon rightSlaveMotor;
+	private CANTalon leftMasterMotor;
+	private CANTalon leftSlaveMotor;
 	private doubleSolenoid shifter;
-	private PixyCam pegCam;
 	private ADXRS450_Gyro SpartanBoard;
 	private double Average_Counts_Per_Meter;
 	private PID Drive_Angle_PI;
@@ -32,23 +32,33 @@ public class Drivetrain extends SubsystemFramework{
 	private double goal_Angle = 0;
 	private double goal_RPM_Error;
 	private double goal_Angle_Error;
-	private double angle;
-	private DrivetrainStates tempState;
+	//private double angle;
 	private DrivetrainStates state = DrivetrainStates.LowGear;
 	
-	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP rightMotor, CANTalon rightCANMotor,
-					VictorSP leftMotor, CANTalon leftCANMotor, doubleSolenoid shifter,
-					PixyCam pegCam, ADXRS450_Gyro SpartanBoard){
-		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
-		this.drivetrainButtons = drivetrainButtons;
-		this.rightCANMotor = rightCANMotor;
-		this.leftCANMotor = leftCANMotor;
+	//VictorSP and Talon SRX drivetrain
+	public Drivetrain(VictorSP rightMotor, CANTalon rightMasterMotor,
+					VictorSP leftMotor, CANTalon leftMasterMotor, doubleSolenoid shifter,
+					ADXRS450_Gyro SpartanBoard){
+		myRobot = new RobotDrive(leftMotor, leftMasterMotor, rightMotor, rightMasterMotor);
+		this.rightMasterMotor = rightMasterMotor;
+		this.leftMasterMotor = leftMasterMotor;
 		this.shifter = shifter;
-		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
 	}
 	
-	public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP rightMotor, CANTalon rightCANMotor,
+	public Drivetrain(CANTalon rightMasterMotor, CANTalon rightSlaveMotor,
+					CANTalon leftMasterMotor, CANTalon leftSlaveMotor, doubleSolenoid shifter,
+					ADXRS450_Gyro SpartanBoard){
+		myRobot = new RobotDrive(leftMasterMotor, leftSlaveMotor, rightMasterMotor, rightSlaveMotor);
+		this.rightMasterMotor = rightMasterMotor;
+		this.rightSlaveMotor = rightSlaveMotor;
+		this.leftMasterMotor = leftMasterMotor;
+		this.leftSlaveMotor = leftSlaveMotor;
+		this.shifter = shifter;
+		this.SpartanBoard = SpartanBoard;
+	}
+	
+	/*public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP rightMotor, CANTalon rightCANMotor,
 				VictorSP leftMotor, CANTalon leftCANMotor, doubleSolenoid shifter, 
 				PixyCam pegCam,	ADXRS450_Gyro SpartanBoard,	double Average_RPM_Per_Meter, 
 				double Drive_Angle_Kp, double Drive_Angle_Ki, double Drive_Kp, double Drive_Ki){
@@ -62,27 +72,28 @@ public class Drivetrain extends SubsystemFramework{
 		this.Average_Counts_Per_Meter = Average_RPM_Per_Meter;
 		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Kp);
 		this.Drive_PI = new PID(Drive_Kp, Drive_Ki); 
-	}
+	}*/
 	
 	public enum DrivetrainStates{
-		LowGear, HighGear, Visioning;
+		LowGear, HighGear;
 	}
 	
 	//method is called by auto modes to tell the robot how far to drive
-	public double autoDrive(double amtToDrive){
-		goal_RPM = amtToDrive * Average_Counts_Per_Meter;
+	//public double autoDrive(double amtToDrive){
+		
+		/*goal_RPM = amtToDrive * Average_Counts_Per_Meter;
 		
 		double currentPosition = getPosition();
 		
 		goal_RPM_Error = goal_RPM - currentPosition;
 		goal_Angle_Error = goal_Angle - SpartanBoard.getAngle();
 		
-		myRobot.arcadeDrive(/*Drive_PI.getOutputP(goal_RPM_Error)*/1, 0);//Drive_Angle_PI.getOutputP(0));		
+		myRobot.arcadeDrive(Drive_PI.getOutputP(goal_RPM_Error), Drive_Angle_PI.getOutputP(0));		
 		
 		//need to subtract returned value from amtToDrive,
 		//maybe done from this method or classes calling this method
-		return currentPosition/Average_Counts_Per_Meter;
-	}
+		return currentPosition/Average_Counts_Per_Meter;*/
+	//}
 	
 	//method is called by auto modes to tell the robot to turn to a certain degree
 	public void autoTurn(int wantedDegree){
@@ -102,23 +113,13 @@ public class Drivetrain extends SubsystemFramework{
 	}
 	
 	public double getPosition(){
-		return ((rightCANMotor.getPosition() + leftCANMotor.getPosition()) / 2);
-	}
-	
-	public DrivetrainStates buttonCheck(){
-		for(int i = 0; i < drivetrainButtons.length; i++){
-			if(Hardware.driverPad.getRawButton(drivetrainButtons[i].getButtonNumber())){
-				return drivetrainButtons[i].getWantedState();
-			}
-		}
-		
-		return null;
+		return ((rightMasterMotor.getPosition() + leftMasterMotor.getPosition()) / 2);
 	}
 	
 	@Override
 	public void update(){
 		DrivetrainStates newState = state;
-		angle = SpartanBoard.getAngle();
+		//angle = SpartanBoard.getAngle();
 		
 		switch(state){
 			case LowGear:
@@ -141,12 +142,6 @@ public class Drivetrain extends SubsystemFramework{
 				}
 				break;
 	
-			case Visioning:
-				shifter.close();
-				
-				myRobot.arcadeDrive(0, (pegCam.getAnalogOutput(SpartanBoard.getAngle())));
-				break;
-	
 			default:
 				newState = DrivetrainStates.LowGear;
 				break;
@@ -161,14 +156,19 @@ public class Drivetrain extends SubsystemFramework{
 
 	@Override
 	public void outputToSmartDashboard() {
-		SmartDashboard.putNumber("Right Position", rightCANMotor.getPosition());
-		SmartDashboard.putNumber("Left Position", leftCANMotor.getPosition());
+		
 		SmartDashboard.putNumber("Angle", SpartanBoard.getAngle());
+		SmartDashboard.putNumber("Right Position", rightMasterMotor.getPosition());
+		SmartDashboard.putNumber("Left Position", leftMasterMotor.getPosition());
+		System.out.println("Right Position: " + rightMasterMotor.getPosition());
+		System.out.println("Left Position: " + leftMasterMotor.getPosition());
 	}
 
 	@Override
 	public void setupSensors() {
-		rightCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		leftCANMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-	}
+		myRobot.setSafetyEnabled(false);
+		rightMasterMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		leftMasterMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		
+		}
 }
