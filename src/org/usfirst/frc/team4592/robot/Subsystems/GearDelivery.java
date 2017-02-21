@@ -17,6 +17,14 @@ public class GearDelivery extends SubsystemFramework{
 	public enum GearDeliveryStates{
 		Open, Close;
 	}
+	
+	public void openGear(){
+		gearDoubleSolenoid.open();
+	}
+	
+	public void closeGear(){
+		gearDoubleSolenoid.close();
+	}
 
 	@Override
 	public void update() {

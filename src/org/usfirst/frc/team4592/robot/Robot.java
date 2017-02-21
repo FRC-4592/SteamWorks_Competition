@@ -1,12 +1,12 @@
 package org.usfirst.frc.team4592.robot;
 
+import org.usfirst.frc.team4592.robot.AutonomousModes.CenterGear;
 import org.usfirst.frc.team4592.robot.Lib.MultiLooper;
 import org.usfirst.frc.team4592.robot.Subsystems.Climber;
 import org.usfirst.frc.team4592.robot.Subsystems.Drivetrain;
 import org.usfirst.frc.team4592.robot.Subsystems.FuelIntake;
 import org.usfirst.frc.team4592.robot.Subsystems.GearDelivery;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 @SuppressWarnings("unused")
@@ -19,7 +19,8 @@ public class Robot extends IterativeRobot{
 	private GearDelivery gearDelivery = new GearDelivery(Hardware.gearPiston);
 	private Climber climb = new Climber(Hardware.rightClimberMotor, Hardware.leftClimberMotor);
 	private FuelIntake intake = new FuelIntake(Hardware.fuelIntakeMotor);
-	double goal_Ticks;
+	private CenterGear centerGear = new CenterGear(myDrive, gearDelivery);
+	
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -33,7 +34,6 @@ public class Robot extends IterativeRobot{
     	SSLooper.addLoopable(gearDelivery);
     	SSLooper.addLoopable(climb);
     	SSLooper.addLoopable(intake);
-    	SSLooper.start();
     }
     
     /**
@@ -41,8 +41,10 @@ public class Robot extends IterativeRobot{
 	 * this used for any initialization code of autonomous. 
 	 */
     public void autonomousInit(){
-    	myDrive.autoDrive(-(16));
-    	goal_Ticks = (2 * Constants.Average_Ticks_Per_Meter);
+    	myDrive.autoSetupMotors();
+    	AutoLooper.addLoopable(centerGear);
+    	AutoLooper.start();
+    	AutoLooper.update();
     }
 
     /**
@@ -51,16 +53,12 @@ public class Robot extends IterativeRobot{
     public void autonomousPeriodic(){
     	myDrive.outputToSmartDashboard();
     	
-    	//goal_Ticks = (goal_Ticks + ((Hardware.rightMasterMotor.getPosition())));
-		
-		System.out.println(goal_Ticks);
-		
-		Hardware.rightMasterMotor.set(goal_Ticks);
-		Hardware.leftMasterMotor.set(-1*goal_Ticks);
+    	//myDrive.autoDrive(2);
     }
     
     public void teleopInit(){
     	//Start Control Loops
+    		myDrive.teleopSetupMotors();
 	    	SSLooper.start();
 	    	DriveLooper.start();
 	    	SSLooper.update();
@@ -79,6 +77,10 @@ public class Robot extends IterativeRobot{
      */
     public void testPeriodic(){
     
+    }
+    
+    public void disabledInit(){
+    	AutoLooper.stop();
     }
     
 }

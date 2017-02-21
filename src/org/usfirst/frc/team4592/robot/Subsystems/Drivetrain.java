@@ -88,10 +88,11 @@ public class Drivetrain extends SubsystemFramework{
 	//method is called by auto modes to tell the robot how far to drive
 	public void autoDrive(double amtToDrive){
 		shifter.close();
-		rightMasterMotor.changeControlMode(TalonControlMode.Position);
-		leftMasterMotor.changeControlMode(TalonControlMode.Position);
-
 		
+		goal_Ticks = (amtToDrive * Average_Ticks_Per_Meter);
+		
+		rightMasterMotor.set(goal_Ticks);
+		leftMasterMotor.set(-1*goal_Ticks);
 	}
 	
 	//method is called by auto modes to tell the robot to turn to a certain degree
@@ -113,6 +114,18 @@ public class Drivetrain extends SubsystemFramework{
 	
 	public double getPosition(){
 		return ((rightMasterMotor.getPosition() + leftMasterMotor.getPosition()) / 2);
+	}
+	
+	public double getRightPosition(){
+		return rightMasterMotor.getPosition();
+	}
+	
+	public double getLeftPosition(){
+		return leftMasterMotor.getPosition();
+	}
+	
+	public double get_GoalTicks(){
+		return goal_Ticks;
 	}
 	
 	@Override
@@ -162,6 +175,16 @@ public class Drivetrain extends SubsystemFramework{
 		System.out.println("Right Position: " + rightMasterMotor.getPosition());
 		System.out.println("Left Position: " + leftMasterMotor.getPosition());
 	}
+	
+	public void autoSetupMotors(){
+		rightMasterMotor.changeControlMode(TalonControlMode.Position);
+		leftMasterMotor.changeControlMode(TalonControlMode.Position);
+	}
+	
+	public void teleopSetupMotors(){
+		rightMasterMotor.changeControlMode(TalonControlMode.PercentVbus);
+		leftMasterMotor.changeControlMode(TalonControlMode.PercentVbus);
+	}
 
 	@Override
 	public void setupSensors() {
@@ -191,7 +214,7 @@ public class Drivetrain extends SubsystemFramework{
 		rightMasterMotor.setD(Drive_D);
 		
 		leftMasterMotor.configNominalOutputVoltage(+0f, -0f);
-		leftMasterMotor.configPeakOutputVoltage(+5.65f, -5.65f);
+		leftMasterMotor.configPeakOutputVoltage(+6f, -6f);
 		leftMasterMotor.setAllowableClosedLoopErr(0);
 		leftMasterMotor.setProfile(0);
 		leftMasterMotor.setF(Drive_F);

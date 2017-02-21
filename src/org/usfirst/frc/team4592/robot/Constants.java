@@ -12,8 +12,8 @@ public class Constants {
 		public static final int LEFT_MOTOR_SLAVE_CAN = 6;
 		
 	//Drivetrain Pnuematics
-		public static final int SHIFTER_OPEN = 2;
-		public static final int SHIFTER_CLOSE = 3;
+		public static final int SHIFTER_OPEN = 1;
+		public static final int SHIFTER_CLOSE = 0;
 	
 	//Fuel Intake PWM Values
 		public static final int FUEL_INTAKE_MOTOR_PWM = 9;
@@ -30,8 +30,8 @@ public class Constants {
 		public static final int SHOOTER_WHEEL_MOTOR_CAN = 6;
 		
 	//Gear Delivery Pnuematics
-		public static final int GEAR_DELIVERY_CLOSE = 0;
-		public static final int GEAR_DELIVERY_OPEN = 1;
+		public static final int GEAR_DELIVERY_CLOSE = 3;
+		public static final int GEAR_DELIVERY_OPEN = 2;
 		
 	//Climber PWM Values
 		public static final int RIGHT_CLIMBER_MOTOR_PWM = 8;	
@@ -87,7 +87,7 @@ public class Constants {
 		public static final double Drive_Kf = 0;
 		public static final double Drive_Kp = 0.7;
 		public static final double Drive_Ki = 0;
-		public static final double Drive_Kd = 14;
+		public static final double Drive_Kd = 3.5;
 		
 	//Fuel Shooter PI Gains
 		//Turret
