@@ -10,6 +10,7 @@ import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -25,10 +26,13 @@ public class Drivetrain extends SubsystemFramework{
 	private CANTalon leftSlaveMotor;
 	private doubleSolenoid shifter;
 	private ADXRS450_Gyro SpartanBoard;
-	private double Average_Counts_Per_Meter;
+	private double Average_Ticks_Per_Meter;
 	private PID Drive_Angle_PI;
-	private PID Drive_PI;
-	private double goal_RPM;
+	private double Drive_F = 0;
+	private double Drive_P = 0;
+	private double Drive_I = 0;
+	private double Drive_D = 0;
+	private double goal_Ticks;
 	private double goal_Angle = 0;
 	private double goal_RPM_Error;
 	private double goal_Angle_Error;
@@ -49,7 +53,7 @@ public class Drivetrain extends SubsystemFramework{
 	public Drivetrain(CANTalon rightMasterMotor, CANTalon rightSlaveMotor,
 					CANTalon leftMasterMotor, CANTalon leftSlaveMotor, doubleSolenoid shifter,
 					ADXRS450_Gyro SpartanBoard){
-		myRobot = new RobotDrive(leftMasterMotor, leftSlaveMotor, rightMasterMotor, rightSlaveMotor);
+		myRobot = new RobotDrive(leftMasterMotor, rightMasterMotor);
 		this.rightMasterMotor = rightMasterMotor;
 		this.rightSlaveMotor = rightSlaveMotor;
 		this.leftMasterMotor = leftMasterMotor;
@@ -58,42 +62,37 @@ public class Drivetrain extends SubsystemFramework{
 		this.SpartanBoard = SpartanBoard;
 	}
 	
-	/*public Drivetrain(DrivetrainButton [] drivetrainButtons, VictorSP rightMotor, CANTalon rightCANMotor,
-				VictorSP leftMotor, CANTalon leftCANMotor, doubleSolenoid shifter, 
-				PixyCam pegCam,	ADXRS450_Gyro SpartanBoard,	double Average_RPM_Per_Meter, 
-				double Drive_Angle_Kp, double Drive_Angle_Ki, double Drive_Kp, double Drive_Ki){
-		myRobot = new RobotDrive(leftMotor, leftCANMotor, rightMotor, rightCANMotor);
-		this.drivetrainButtons = drivetrainButtons;
-		this.rightCANMotor = rightCANMotor;
-		this.leftCANMotor = leftCANMotor;
+	public Drivetrain(CANTalon rightMasterMotor, CANTalon rightSlaveMotor,
+				CANTalon leftMasterMotor, CANTalon leftSlaveMotor, doubleSolenoid shifter, 
+				ADXRS450_Gyro SpartanBoard,	double Average_RPM_Per_Meter, 
+				double Drive_Angle_Kp, double Drive_Angle_Ki, double Drive_Kf, double Drive_Kp, double Drive_Ki, double Drive_Kd){
+		myRobot = new RobotDrive(leftMasterMotor, rightMasterMotor);
+		this.rightMasterMotor = rightMasterMotor;
+		this.rightSlaveMotor = rightSlaveMotor;
+		this.leftMasterMotor = leftMasterMotor;
+		this.leftSlaveMotor = leftSlaveMotor;
 		this.shifter = shifter;
-		this.pegCam = pegCam;
 		this.SpartanBoard = SpartanBoard;
-		this.Average_Counts_Per_Meter = Average_RPM_Per_Meter;
-		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Kp);
-		this.Drive_PI = new PID(Drive_Kp, Drive_Ki); 
-	}*/
+		this.Average_Ticks_Per_Meter = Average_RPM_Per_Meter;
+		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Kp); 
+		this.Drive_F = Drive_Kf;
+		this.Drive_P = Drive_Kp;
+		this.Drive_I = Drive_Ki;
+		this.Drive_D = Drive_Kd;
+	}
 	
 	public enum DrivetrainStates{
 		LowGear, HighGear;
 	}
 	
 	//method is called by auto modes to tell the robot how far to drive
-	//public double autoDrive(double amtToDrive){
+	public void autoDrive(double amtToDrive){
+		shifter.close();
+		rightMasterMotor.changeControlMode(TalonControlMode.Position);
+		leftMasterMotor.changeControlMode(TalonControlMode.Position);
+
 		
-		/*goal_RPM = amtToDrive * Average_Counts_Per_Meter;
-		
-		double currentPosition = getPosition();
-		
-		goal_RPM_Error = goal_RPM - currentPosition;
-		goal_Angle_Error = goal_Angle - SpartanBoard.getAngle();
-		
-		myRobot.arcadeDrive(Drive_PI.getOutputP(goal_RPM_Error), Drive_Angle_PI.getOutputP(0));		
-		
-		//need to subtract returned value from amtToDrive,
-		//maybe done from this method or classes calling this method
-		return currentPosition/Average_Counts_Per_Meter;*/
-	//}
+	}
 	
 	//method is called by auto modes to tell the robot to turn to a certain degree
 	public void autoTurn(int wantedDegree){
@@ -166,9 +165,38 @@ public class Drivetrain extends SubsystemFramework{
 
 	@Override
 	public void setupSensors() {
-		myRobot.setSafetyEnabled(false);
+		//Setup Master Encoders
+		rightMasterMotor.setEncPosition(0);
+		leftMasterMotor.setEncPosition(0);
+		
 		rightMasterMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		leftMasterMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		
-		}
+		rightMasterMotor.reverseSensor(true);
+		leftMasterMotor.reverseSensor(true);
+		
+		//Setup Master Slave relationship		
+		rightSlaveMotor.changeControlMode(CANTalon.TalonControlMode.Follower);
+		rightSlaveMotor.set(rightMasterMotor.getDeviceID());
+		leftSlaveMotor.changeControlMode(CANTalon.TalonControlMode.Follower);
+		leftSlaveMotor.set(leftMasterMotor.getDeviceID());
+		
+		rightMasterMotor.configNominalOutputVoltage(+0f, -0f);
+		rightMasterMotor.configPeakOutputVoltage(+6f, -6f);
+		rightMasterMotor.setAllowableClosedLoopErr(0);
+		rightMasterMotor.setProfile(0);
+		rightMasterMotor.setF(Drive_F);
+		rightMasterMotor.setP(Drive_P);
+		rightMasterMotor.setI(Drive_I);
+		rightMasterMotor.setD(Drive_D);
+		
+		leftMasterMotor.configNominalOutputVoltage(+0f, -0f);
+		leftMasterMotor.configPeakOutputVoltage(+5.65f, -5.65f);
+		leftMasterMotor.setAllowableClosedLoopErr(0);
+		leftMasterMotor.setProfile(0);
+		leftMasterMotor.setF(Drive_F);
+		leftMasterMotor.setP(Drive_P);
+		leftMasterMotor.setI(Drive_I);
+		leftMasterMotor.setD(Drive_D);
+	}
 }

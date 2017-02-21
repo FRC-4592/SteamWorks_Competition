@@ -15,10 +15,11 @@ public class Robot extends IterativeRobot{
 	private MultiLooper DriveLooper = new MultiLooper("DriveLooper", 1/200.0, false);
 	private MultiLooper SSLooper = new MultiLooper("SSLooper", 1/200.0, false); //Subsystems looper
 	private MultiLooper AutoLooper = new MultiLooper("AutoLooper", 1/200.0, false); //Auto looper
-	private Drivetrain myDrive = new Drivetrain(Hardware.rightMasterMotor, Hardware.rightSlaveMotor, Hardware.leftMasterMotor, Hardware.leftSlaveMotor, Hardware.shifter, Hardware.SpartanBoard);//, Constants.Average_Counts_Per_Meter, Constants.Drive_ANGLE_Kp, Constants.Drive_ANGLE_Ki, Constants.Drive_Kp, Constants.Drive_Ki);
+	private Drivetrain myDrive = new Drivetrain(Hardware.rightMasterMotor, Hardware.rightSlaveMotor, Hardware.leftMasterMotor, Hardware.leftSlaveMotor, Hardware.shifter, Hardware.SpartanBoard, Constants.Average_Ticks_Per_Meter, Constants.Drive_ANGLE_Kp, Constants.Drive_ANGLE_Ki, Constants.Drive_Kf, Constants.Drive_Kp, Constants.Drive_Ki, Constants.Drive_Kd);
 	private GearDelivery gearDelivery = new GearDelivery(Hardware.gearPiston);
 	private Climber climb = new Climber(Hardware.rightClimberMotor, Hardware.leftClimberMotor);
 	private FuelIntake intake = new FuelIntake(Hardware.fuelIntakeMotor);
+	double goal_Ticks;
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -27,8 +28,8 @@ public class Robot extends IterativeRobot{
     	//need to reset all encoders and set it up in intended way
     	myDrive.setupSensors();
     	
-    	//DriveLooper.addLoopable(myDrive);
-    	SSLooper.addLoopable(myDrive);
+    	DriveLooper.addLoopable(myDrive);
+    	//SSLooper.addLoopable(myDrive);
     	SSLooper.addLoopable(gearDelivery);
     	SSLooper.addLoopable(climb);
     	SSLooper.addLoopable(intake);
@@ -40,23 +41,30 @@ public class Robot extends IterativeRobot{
 	 * this used for any initialization code of autonomous. 
 	 */
     public void autonomousInit(){
-    	
+    	myDrive.autoDrive(-(16));
+    	goal_Ticks = (2 * Constants.Average_Ticks_Per_Meter);
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic(){
-    	//myDrive.autoDrive(-(1.94));
-    	//myDrive.outputToSmartDashboard();
+    	myDrive.outputToSmartDashboard();
+    	
+    	//goal_Ticks = (goal_Ticks + ((Hardware.rightMasterMotor.getPosition())));
+		
+		System.out.println(goal_Ticks);
+		
+		Hardware.rightMasterMotor.set(goal_Ticks);
+		Hardware.leftMasterMotor.set(-1*goal_Ticks);
     }
     
     public void teleopInit(){
     	//Start Control Loops
 	    	SSLooper.start();
-	    	//DriveLooper.start();
+	    	DriveLooper.start();
 	    	SSLooper.update();
-	    	//DriveLooper.update();
+	    	DriveLooper.update();
     }
 
     /**

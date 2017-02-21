@@ -83,9 +83,11 @@ public class Constants {
 		public static final double Drive_ANGLE_Kp = 0; //0.0675;
 		public static final double Drive_ANGLE_Ki = 0; //0.002;
 		//needs to be fixed
-		public static final double Average_Counts_Per_Meter = 3.17623;
-		public static final double Drive_Kp = 0.1;
+		public static final double Average_Ticks_Per_Meter = 3.110508;
+		public static final double Drive_Kf = 0;
+		public static final double Drive_Kp = 0.7;
 		public static final double Drive_Ki = 0;
+		public static final double Drive_Kd = 14;
 		
 	//Fuel Shooter PI Gains
 		//Turret
