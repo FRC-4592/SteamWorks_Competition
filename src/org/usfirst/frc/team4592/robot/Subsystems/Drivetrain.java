@@ -2,7 +2,6 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Constants;
 import org.usfirst.frc.team4592.robot.Hardware;
-import org.usfirst.frc.team4592.robot.Button.DrivetrainButton;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.PID;
 import org.usfirst.frc.team4592.robot.Util.PixyCam;
@@ -96,18 +95,18 @@ public class Drivetrain extends SubsystemFramework{
 	}
 	
 	//method is called by auto modes to tell the robot to turn to a certain degree
-	public void autoTurn(int wantedDegree){
-		goal_Angle = wantedDegree;
+	public void autoTurn(int wantedDegree){		
+		goal_Angle_Error = wantedDegree + (SpartanBoard.getAngle());
 		
-		goal_Angle_Error = goal_Angle - SpartanBoard.getAngle();
+		System.out.println(goal_Angle_Error);
 		
 		myRobot.arcadeDrive(0, Drive_Angle_PI.getOutputP(goal_Angle_Error));
 	}
 	
-	public void autoTurn(double wantedDegree){
-		goal_Angle = wantedDegree;
+	public void autoTurn(double wantedDegree){		
+		goal_Angle_Error = wantedDegree + SpartanBoard.getAngle();
 		
-		goal_Angle_Error = goal_Angle - SpartanBoard.getAngle();
+		System.out.println(goal_Angle_Error);
 		
 		myRobot.arcadeDrive(0, Drive_Angle_PI.getOutputP(goal_Angle_Error));
 	}
@@ -126,6 +125,10 @@ public class Drivetrain extends SubsystemFramework{
 	
 	public double get_GoalTicks(){
 		return goal_Ticks;
+	}
+	
+	public double get_GoalAngle(){
+		return goal_Angle_Error;
 	}
 	
 	@Override
@@ -165,7 +168,7 @@ public class Drivetrain extends SubsystemFramework{
 		
 		outputToSmartDashboard();
 	}
-
+	
 	@Override
 	public void outputToSmartDashboard() {
 		
@@ -174,6 +177,14 @@ public class Drivetrain extends SubsystemFramework{
 		SmartDashboard.putNumber("Left Position", leftMasterMotor.getPosition());
 		System.out.println("Right Position: " + rightMasterMotor.getPosition());
 		System.out.println("Left Position: " + leftMasterMotor.getPosition());
+	}
+	
+	public void resetSpartanBoard(){
+		if(SpartanBoard.getAngle() >= 360){
+			SpartanBoard.reset();
+		}else if(SpartanBoard.getAngle() <= -360){
+			SpartanBoard.reset();
+		}
 	}
 	
 	public void autoSetupMotors(){
@@ -185,10 +196,29 @@ public class Drivetrain extends SubsystemFramework{
 		rightMasterMotor.changeControlMode(TalonControlMode.PercentVbus);
 		leftMasterMotor.changeControlMode(TalonControlMode.PercentVbus);
 	}
+	
+	public void zeroEncoders(){
+		rightMasterMotor.setEncPosition(0);
+		leftMasterMotor.setEncPosition(0);
+	}
+	
+	public void zeroSpartanBoard(){
+		SpartanBoard.reset();
+	}
+	
+	public void auto_90_power(){
+		rightMasterMotor.configNominalOutputVoltage(+0f, -0f);
+		rightMasterMotor.configPeakOutputVoltage(+10.8f, -10.8f);
+		
+		leftMasterMotor.configNominalOutputVoltage(+0f, -0f);
+		leftMasterMotor.configPeakOutputVoltage(+10.8f, -10.8f);
+	}
 
 	@Override
 	public void setupSensors() {
 		//Setup Master Encoders
+		SpartanBoard.reset();
+		
 		rightMasterMotor.setEncPosition(0);
 		leftMasterMotor.setEncPosition(0);
 		

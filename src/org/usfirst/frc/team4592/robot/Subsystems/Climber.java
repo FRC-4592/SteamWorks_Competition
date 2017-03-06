@@ -2,7 +2,6 @@ package org.usfirst.frc.team4592.robot.Subsystems;
 
 import org.usfirst.frc.team4592.robot.Constants;
 import org.usfirst.frc.team4592.robot.Hardware;
-import org.usfirst.frc.team4592.robot.Button.ClimberButton;
 import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 
 import edu.wpi.first.wpilibj.VictorSP;
