@@ -6,13 +6,20 @@ import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
 public class GearLock extends SubsystemFramework{
+	//Hardware
 	private doubleSolenoid gearLockPiston;
+	
+	//Gear Lock State
 	private GearLockState state = GearLockState.Lock;
 	
+	//Gear Lock Constructor
 	public GearLock(doubleSolenoid gearLockPiston){
 		this.gearLockPiston = gearLockPiston;
 	}
 	
+	//Gear Lock States
+	//Unlock Allows Gear To Move Freely
+	//Lock Doesn't Allow Gear To Move
 	public enum GearLockState{
 		Unlock, Lock;
 	}
@@ -33,8 +40,10 @@ public class GearLock extends SubsystemFramework{
 		
 		switch(state){	
 			case Unlock:
+				//Opens Gear Lock Piston
 				gearLockPiston.open();
 				
+				//Checks For Button Press To Lock The System
 				if(Hardware.driverPad.getRawAxis(Constants.GEARLOCK) <= 0.2){
 					newState = GearLockState.Lock;
 				}
@@ -42,8 +51,10 @@ public class GearLock extends SubsystemFramework{
 				break;
 			
 			case Lock:
+				//Closes Gear Lock Piston
 				gearLockPiston.close();
 				
+				//Checks For Button Press To Unlock The System
 				if(Hardware.driverPad.getRawAxis(Constants.GEARLOCK) > 0.2){
 					newState = GearLockState.Unlock;
 				}

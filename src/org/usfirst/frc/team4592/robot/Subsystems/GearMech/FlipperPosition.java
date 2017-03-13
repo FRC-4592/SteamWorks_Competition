@@ -6,13 +6,20 @@ import org.usfirst.frc.team4592.robot.Lib.SubsystemFramework;
 import org.usfirst.frc.team4592.robot.Util.doubleSolenoid;
 
 public class FlipperPosition extends SubsystemFramework{
+	//Hardware
 	private doubleSolenoid flipperPiston;
+	
+	//Flipper State
 	private FlipperPositionState state = FlipperPositionState.Intake;
 	
+	//Flipper Constructor 
 	public FlipperPosition(doubleSolenoid flipperPiston){
 		this.flipperPiston = flipperPiston;
 	}
 	
+	//Flipper States
+	//Intake State Puts Flipper Into Intaking Position (Angled Position)
+	//Place State Puts Flipper Into Placeing Posiotn (Vertical Position) 
 	public enum FlipperPositionState{
 		Intake, Place;
 	}
@@ -33,8 +40,10 @@ public class FlipperPosition extends SubsystemFramework{
 		
 		switch(state){
 			case Intake:
+				//Tells Flipper Piston To Closed State
 				flipperPiston.close();
 				
+				//Checks For Button Press To Switch To Place State
 				if(Hardware.driverPad.getRawButton(Constants.FLIPPERPOSITION_PLACE)){
 					newState = FlipperPositionState.Place;
 				}
@@ -42,8 +51,10 @@ public class FlipperPosition extends SubsystemFramework{
 				break;
 				
 			case Place:
+				//Tells Flipper Piston To Open State
 				flipperPiston.open();
 				
+				//Checks For Button Press To Switch To Intake State
 				if(Hardware.driverPad.getRawButton(Constants.FLIPPERPOSITION_INTAKE)){
 					newState = FlipperPositionState.Intake;
 				}
