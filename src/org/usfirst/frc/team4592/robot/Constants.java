@@ -43,8 +43,9 @@ public class Constants {
 		//Drivetrain Buttons
 			public static final int DRIVETRAIN_LOWGEAR = 2;
 			public static final int DRIVETRAIN_HIGHGEAR = 1;
-		//Climber Button
+		//Climber Buttons
 			public static final int CLIMB = 8;
+			public static final int HOOK_ON_TO_ROPE = 4;
 	
 	//Drivetrain PI Gains
 		public static final double Drive_ANGLE_Kp = 0.06;

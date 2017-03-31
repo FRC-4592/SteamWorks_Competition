@@ -10,6 +10,7 @@ public class Climber extends SubsystemFramework{
 	//Hardware
 	private VictorSP rightClimberMotor;
 	private VictorSP leftClimberMotor;
+	private int counter = 0;
 	
 	//Climber State
 	private ClimberStates state = ClimberStates.Off;
@@ -26,7 +27,7 @@ public class Climber extends SubsystemFramework{
 	//Due to 300:1 Ratio Climber Keeps Going For Awhile
 	//Climb Tells VictorSP To Provide Full Power
 	public enum ClimberStates{
-		Off, Climb;
+		Off, HookOnToRope, Climb;
 	}
 	
 	//Teleop Control
@@ -44,6 +45,19 @@ public class Climber extends SubsystemFramework{
 				//Checks For Button Press To Switch To Climb State
 				if(Hardware.driverPad.getRawButton(Constants.CLIMB)){
 					newState = ClimberStates.Climb;
+				}else if(Hardware.driverPad.getRawButton(Constants.HOOK_ON_TO_ROPE)){
+					newState = ClimberStates.HookOnToRope;
+				}
+	break;
+	
+			case HookOnToRope:
+				//Tell Motor Controllers To Give 20% Power
+				rightClimberMotor.set(-0.3);
+				leftClimberMotor.set(0.3);
+			
+				//Checks That Hook_On_To_Rope Isn't Being Pressed To Shut Off Climber
+				if(!Hardware.driverPad.getRawButton(Constants.CLIMB)){
+					newState = ClimberStates.Off;
 				}
 	break;
 	
@@ -52,10 +66,12 @@ public class Climber extends SubsystemFramework{
 				rightClimberMotor.set(-1);
 				leftClimberMotor.set(1);
 				
+				
 				//Checks That Climb Button Isn't Being Pressed To Shut Off Climber
 				if(!Hardware.driverPad.getRawButton(Constants.CLIMB)){
 					newState = ClimberStates.Off;
 				}
+				
 	break;
 	
 			default:

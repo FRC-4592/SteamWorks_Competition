@@ -19,21 +19,21 @@ public class AutoCenterGear implements Loopable{
 	
 	@Override
 	public void update(){
-		if(counter >= 0 && counter <= 415){
+		if(counter >= 0 && counter <= 640){
 			flipperPosition.FlipperPosition_Place();;
 			gearLock.GearLock_Lock();
 			
-			if(counter >= 0 && counter <= 135){
+			if(counter >= 0 && counter <= 200){
 				myDrive.autoDrive(-0.73);
 			}
-			if(counter >= 140 && counter <= 275){
+			if(counter >= 220 && counter <= 420){
 				myDrive.autoDrive(-1.46);
-			}else if(counter >= 280 && counter <= 415){
+			}else if(counter >= 440 && counter <= 640){
 				myDrive.autoDrive(-2.2);
 			}
-		}else if(counter >= 420 && counter <= 520){
+		}else if(counter >= 650 && counter <= 750){
 			gearLock.GearLock_Unlock();
-		}else if(counter >= 525){
+		}else if(counter >= 760){
 			myDrive.auto_90_power();
 			myDrive.autoDrive(-0.2);
 		}

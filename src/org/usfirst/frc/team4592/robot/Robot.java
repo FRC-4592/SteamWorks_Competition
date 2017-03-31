@@ -122,10 +122,10 @@ public class Robot extends IterativeRobot{
     	*/
     	//Setup Drivetrain to auto setup
     		myDrive.autoSetupMotors();
-    		//AutoLooper.addLoopable(centerGear);
+    		AutoLooper.addLoopable(centerGear);
     		//AutoLooper.addLoopable(UCenterGear);
     		//AutoLooper.addLoopable(autoStraight);
-    		AutoLooper.addLoopable(sideGearAuto);
+    		//AutoLooper.addLoopable(sideGearAuto);
     		
     	//Auto Looper Setup
     		AutoLooper.start();
@@ -144,6 +144,7 @@ public class Robot extends IterativeRobot{
     public void teleopInit(){
     	//Setup Drivetrain For Teleop
     		myDrive.teleopSetupMotors();
+    		myDrive.teleopMotorsFull();
     		
     	//Start Control Loops
     		DriveLooper.start();

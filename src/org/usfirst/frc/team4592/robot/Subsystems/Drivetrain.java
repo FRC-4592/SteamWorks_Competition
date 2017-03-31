@@ -30,6 +30,7 @@ public class Drivetrain extends SubsystemFramework{
 	
 	//PID
 	private PID Drive_Angle_PI;
+	private PID Drive_PI;
 	private double Drive_F = 0;
 	private double Drive_P = 0;
 	private double Drive_I = 0;
@@ -38,7 +39,7 @@ public class Drivetrain extends SubsystemFramework{
 	//Constants
 	private double goal_Ticks;
 	private double goal_Angle = 0;
-	//private double goal_RPM_Error;
+	private double goal_Ticks_Error;
 	private double goal_Angle_Error;
 	
 	//Drivetrain State
@@ -113,8 +114,35 @@ public class Drivetrain extends SubsystemFramework{
 		this.Drive_D = Drive_Kd;
 		
 		//Setup PID
-		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Kp);
+		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Ki);
 	}
+	
+	/*public Drivetrain(CANTalon rightMasterMotor, CANTalon rightSlaveMotor,
+			CANTalon leftMasterMotor, CANTalon leftSlaveMotor, doubleSolenoid shifter, 
+			ADXRS450_Gyro SpartanBoard,	double Average_Ticks_Per_Meter, 
+			double Drive_Angle_Kp, double Drive_Angle_Ki, double Drive_Kp, double Drive_Ki){
+		//Drivetrain
+		myRobot = new RobotDrive(leftMasterMotor, rightMasterMotor);
+				
+		//Talon SRX
+		this.rightMasterMotor = rightMasterMotor;
+		this.rightSlaveMotor = rightSlaveMotor;
+		this.leftMasterMotor = leftMasterMotor;
+		this.leftSlaveMotor = leftSlaveMotor;
+				
+		//Shifter
+		this.shifter = shifter;
+				
+		//Spartan Board (GYRO)
+		this.SpartanBoard = SpartanBoard;
+				
+		//Constants
+		this.Average_Ticks_Per_Meter = Average_Ticks_Per_Meter;
+		
+		//Setup PID
+		this.Drive_Angle_PI = new PID(Drive_Angle_Kp, Drive_Angle_Ki);
+		this.Drive_PI = new PID(Drive_Kp, Drive_Ki);
+	}*/
 	
 	//Drivetrain States
 	//Low Gear State Puts Robot In Lowest Speed Best For Pushing
@@ -133,6 +161,14 @@ public class Drivetrain extends SubsystemFramework{
 		leftMasterMotor.set(-1*goal_Ticks);
 	}
 	
+	/*public void autoDriveStraight(double amtToDrive){
+		shifter.close();
+		
+		goal_Ticks = (amtToDrive * Average_Ticks_Per_Meter);
+		goal_Ticks_Error = (goal_Ticks - getPosition());
+		goal_Angle_Error
+	}*/
+	
 	//Methods Are Called By Auto Modes To Tell The Robot To Turn To A Certain Degree
 	public void autoTurn(int wantedDegree){		
 		goal_Angle_Error = wantedDegree + (SpartanBoard.getAngle());
@@ -150,9 +186,9 @@ public class Drivetrain extends SubsystemFramework{
 		myRobot.arcadeDrive(0, Drive_Angle_PI.getOutputP(goal_Angle_Error));
 	}
 	
-	/*public double getPosition(){
-		return ((rightMasterMotor.getPosition() + leftMasterMotor.getPosition()) / 2);
-	}*/
+	public double getPosition(){
+		return ((-1*rightMasterMotor.getPosition() + leftMasterMotor.getPosition()) / 2);
+	}
 	
 	//Get Motor Positions
 	public double getRightPosition(){
@@ -170,6 +206,10 @@ public class Drivetrain extends SubsystemFramework{
 	
 	public double get_GoalAngle(){
 		return goal_Angle_Error;
+	}
+	
+	public double get_Angle(){
+		return SpartanBoard.getAngle();
 	}
 	
 	//Teleop Control
@@ -251,6 +291,16 @@ public class Drivetrain extends SubsystemFramework{
 	public void teleopSetupMotors(){
 		rightMasterMotor.changeControlMode(TalonControlMode.PercentVbus);
 		leftMasterMotor.changeControlMode(TalonControlMode.PercentVbus);
+	}
+	
+	public void teleopMotorsFull(){
+		//Set Right Motors To 90%
+				rightMasterMotor.configNominalOutputVoltage(+0f, -0f);
+				rightMasterMotor.configPeakOutputVoltage(+12f, -12f);
+				
+				//Set Left Motors To 90%
+				leftMasterMotor.configNominalOutputVoltage(+0f, -0f);
+				leftMasterMotor.configPeakOutputVoltage(+12f, -12f);
 	}
 	
 	//Set Encoders Location To Zero
